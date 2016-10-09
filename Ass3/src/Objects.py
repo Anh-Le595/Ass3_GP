@@ -1,6 +1,8 @@
 import math
+import json
 from pygame import *
-from setting import *
+
+from src.setting import *
 
 
 class Player(sprite.Sprite) :
@@ -12,9 +14,7 @@ class Player(sprite.Sprite) :
 
         self.image = self.game.player_image
         self.rect = self.image.get_rect()
-        # self.vel = math.Vector2(0, 0)
-        self.velx = 0
-        self.vely = 0
+        self.vel = math.Vector2(0, 0)
         self.width = self.rect.width
         self.height = self.rect.height
 
@@ -30,31 +30,29 @@ class Player(sprite.Sprite) :
 
     def update(self):
         if self.runleft:
-            self.velx = -PLAYER_SPEED
+            self.vel.x = -PLAYER_SPEED
         if self.runright:
-            self.velx = PLAYER_SPEED
+            self.vel.x = PLAYER_SPEED
         if self.jump:
             if self.on_ground:
-                self.vely = -JUMP_HEIGHT
+                self.vel.y = -JUMP_HEIGHT
 
         if not self.on_ground:
-            self.vely += GRAVITY
-            if self.vely > 8:
-                self.vely = 8
+            self.vel.y += GRAVITY
+            if self.vel.y > 8:
+                self.vel.y = 8
 
         if not (self.runleft or self.runright):
-            self.velx = 0
-        self.rect.left += self.velx
-        self.collide_with_walls(self.velx, 0)
-        self.rect.bottom += self.vely
+            self.vel.x = 0
+        self.rect.left += self.vel.x
+        self.collide_with_walls(self.vel.x, 0)
+        self.rect.bottom += self.vel.y
         self.on_ground = False
-        self.collide_with_walls(0, self.vely)
+        self.collide_with_walls(0, self.vel.y)
 
 
 
     def collide_with_walls(self, vx, vy):
-        print(self.on_ground)
-        print(vx,vy)
         for p in self.game.ground:
             if sprite.collide_rect(self, p):
                 if vx > 0:
@@ -65,43 +63,49 @@ class Player(sprite.Sprite) :
                     print(self.on_ground)
                     self.rect.bottom = p.rect.top
                     self.on_ground = True
-                    self.vely = 0
+                    self.vel.y = 0
                 if vy < 0:
                     self.rect.top = p.rect.bottom
 
+
+
 class Ground(sprite.Sprite):
-    def __init__(self, game, x, y):
+    def __init__(self, game, block):
         self.groups = game.all_sprites, game.ground
         sprite.Sprite.__init__(self, self.groups)
 
         self.game = game
-        self.image = Surface((TILE_SIZE, TILE_SIZE))
+
+        self.image = Surface((block["width"], block["height"]))
         self.image.fill(GREEN)
         self.rect = self.image.get_rect()
-        self.x = x
-        self.y = y
-        self.rect.left = self.x * TILE_SIZE
-        self.rect.bottom = self.y * TILE_SIZE
+        self.x = block["x"]
+        self.y = block["y"]
+        self.rect.left = self.x
+        self.rect.top = self.y
+
+
+
 
 class Map:
     def __init__(self, file_path):
         self.data = []
-        with open(file_path,'r') as file:
-            for line in file:
-                self.data.append(line.strip())
-        self.tilewidth = len(self.data[0])
-        self.tileheight = len(self.data)
+        with open(file_path) as file:
+            self.data = json.load(file)
+        self.tilewidth = self.data["width"]
+        self.tileheight = self.data["height"]
         self.width = self.tilewidth * TILE_SIZE
         self.height = self.tileheight * TILE_SIZE
 
+
 class Camera:
     def __init__(self, screenwidth, screenheight):
-        self.camera = Rect(0,0, screenwidth, screenheight)
+        self.camera = Rect(0, 0, screenwidth, screenheight)
         self.width = screenwidth
         self.height = screenheight
 
-    def apply(self, object):
-        return object.rect.move(self.camera.topleft)
+    def apply(self, rect):
+        return rect.rect.move(self.camera.topleft)
 
     def update(self, player):
         x = -player.rect.x + int(WIDTH / 2)
@@ -114,9 +118,8 @@ class Camera:
 
         self.camera.x = x
         self.camera.y = y
-        self.camera.width = self.width
-        self.camera.height = self.height
-
+        self.camera.width = WIDTH
+        self.camera.height = HEIGHT
 
 
 

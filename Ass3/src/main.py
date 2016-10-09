@@ -1,10 +1,7 @@
-import pygame
-import sys
-
 from os import path
-from setting import *
+import pygame
 from pygame import *
-from Objects import *
+from src.Objects import *
 
 
 
@@ -12,16 +9,14 @@ class Main:
     def __init__(self):
         # init GameWindow, etc
         init()
-        self.screen = display.set_mode((WIDTH,HEIGHT))
+        self.screen = display.set_mode((WIDTH, HEIGHT))
         display.set_caption(CAPTION)
         self.clock = time.Clock()
-        self.load_map()
-        self.running = True
-
-    def load_map(self):
         game_path = path.dirname(__file__)
         self.player_image = image.load(path.join(game_path, PLAYER_IMAGE))
         self.map = Map(path.join(game_path, MAP1_PATH))
+        self.running = True
+
     def new(self):
         # start a new game
 
@@ -29,12 +24,13 @@ class Main:
         self.all_sprites = sprite.Group()
         self.ground = sprite.Group()
 
-        for row, tiles in enumerate(self.map.data):
-            for col, tile in enumerate(tiles):
-                if tile == '1':
-                    Ground(self, col, row)
-                if tile == 'P':
-                    self.player = Player(self, col * TILE_SIZE, row * TILE_SIZE)
+        for layer in self.map.data["layers"]:
+            if layer["name"] == "Ground":
+                for ground in layer["objects"]:
+                    Ground(self, ground)
+            if layer["name"] == "Player":
+                self.player = Player(self, layer["objects"][0]["width"], layer["objects"][0]["height"])
+
         self.camera = Camera(self.map.width, self.map.height)
 
     def run(self):

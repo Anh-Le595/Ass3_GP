@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="224" height="30" tilewidth="16" tileheight="16" nextobjectid="237">
+ <tileset firstgid="1" name="SuperMarioBrosMap1-1" tilewidth="16" tileheight="16" tilecount="6720" columns="224">
+  <image source="../../../Mario/Map/World1/SuperMarioBrosMap1-1.png" width="3584" height="480"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="224" height="30">
+  <data encoding="base64" compression="zlib">
+   eJzt1QWQVVUcwOGnAtuAQZfdgkkoYGKLLaBggIliK40FKmE3ZSsmjQrsYoMF2EgpoWACKqWAfs7o8ER2fSzIqvv/zXyz5957zn33nt03m0hEURRFURRFURRFURRF/8XalijqJ1g/DfaeQxjKMIYzgud4fpU9GO04lzzGrMX+jF/DtZPNn8LU1ayb4dxMZjG7GPzOqpVMJKqXLOqniKLi1zLfu+WsiO9fFK3XppTy/59pTC9V1E8TRcWnkWmJxChGk0teWlE/0bprwSrvstDxIhazhKX/0LuWSU8kyqanNreyeVVSnJtKNd2rFruuxT33zWdtI+cPXs21I5LONU4aH5vPfZqswbO1NLdVAfNbJ11rswb3bWdu+6T5nQqxX92t6UFPehVi/X3W9KYPfelH/3X4t/B/bY49mlvAPs1zbX6K+/iTeT/HnheqwzISicMzVh4fZdw4I//5f9TEnKY0S5rb3LhFCmvXVe18Vns60JFOdKbLenyGf1u53j0vhfcfa864AuZNcG1iivs42bwpxXjPC9v2mYnEDuyYufLcLsY1qZWZ/7rartWhLvWS5tU3bkDDfNYe5HyjAu77d51g7Ym/r2/iZ1OacTKn0JwWnLoWn/Ffr59375/C+z9uzoAC5g10bVCK+zjSvFHFeM8LU1pWIpFOBplZK8/nGJemDGWz/rqunHPlqUBFKiXNqWpcjerUWM3arZ3bZjXnU21Pa/eiNnWoSz32Zh/q04CGKXzGIWvxHGvSGT6nJa04k7M4m3M4l/NozflcQBsu5CIu5hIu5TIu5wqupC3taE8HOtKJznThKq7mGq7lOrrSjeu5gRvpTg960oubuJlbuJXbuJ07uJO7uJt7uJf76E0f+tKP/tzPAzzIQzzMIzyatO8DjJ/gSZ7iaZ7hWQYyiMEMYSjDGM6IVX53Ix2PYjS55DGGF3mJl3mFV3mN1xnLON7gTd7ibd5hPBOYyLu8x/t8wId8xMdM4hMmM4WpTGM6n/IZM5jJLGbzOV8wh7l8yVd8zTd8y3fMYz4L+J4f+JGFLGIxS1iatBfLjJezgl9+O5+dSGzAhmxECUpSijTSySCTLLLJoTRlKMvGbMKmbEY5ylOBilSiMlWoSjWqU4PN2YIt2Yqt2YZt2Y7t2YEd2Ymd2YWa1GJXdmN39mBP9qI2dahLPfZmH+rTgIbsy37szwEcyEE04mAO4VAO43CO4EiOojFHcwzHchzHcwInchJNaEozTuYUmtOCUzmN0zmDlrTiTM7ibM7hXM6jNedzAW24kIu4mEu4lMu4nCu4kra0oz0d6EgnOtOFq7iaa7iW6+hKt+yVfy83GnenBz3pxU3czC3cym3czh3cyV3cnf3n719vx33oSz/6cz8P8CAP8TCP8CiP8TgDeIIneYqneYZnGcggBjOEoQxjOCN4jud5gZGMYjS55DGGF3mJl3mFV3mN1xnLON7gTd7ibd5hPBOYyLu8x/t8wId8xMdM4pOkvZhqPI3pfMpnzGAms5jN53zBHObyJV/xNd/wLd8xj/ks4Ht+4EcWsojFLGEpP/Ezy1jOCn757blyfP/ZkI0oQUlKkUY6GWSSRTY5lKYMZdmYTdiUzShHeSpQkUpUpgpVqUZ1arB5zrr6LxpFURRFURRFURRFURRFURRFURRFURRFURRFxbNJFYr6CaIoiqIoiqIoiqIoiv7ZfgV6mE2i
+  </data>
+ </layer>
+ <objectgroup name="QuestionBlock" visible="0">
+  <object id="7" name="questionblock" x="352" y="80" width="16" height="16"/>
+  <object id="8" name="questionblock" x="336" y="144" width="16" height="16"/>
+  <object id="9" name="questionblock" x="368" y="144" width="16" height="16"/>
+  <object id="10" name="questionblock" x="256" y="144" width="16" height="16"/>
+  <object id="11" name="questionblock" x="1248" y="144" width="16" height="16"/>
+  <object id="12" name="questionblock" x="1504" y="80" width="16" height="16"/>
+  <object id="13" name="questionblock" x="1696" y="144" width="16" height="16"/>
+  <object id="14" name="questionblock" x="1744" y="80" width="16" height="16"/>
+  <object id="15" name="questionblock" x="1744" y="144" width="16" height="16"/>
+  <object id="16" name="questionblock" x="1792" y="144" width="16" height="16"/>
+  <object id="17" name="questionblock" x="2064" y="80" width="16" height="16"/>
+  <object id="18" name="questionblock" x="2080" y="80" width="16" height="16"/>
+  <object id="19" name="questionblock" x="2720" y="144" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="Brick" visible="0">
+  <object id="21" name="brick" x="320" y="144" width="16" height="16"/>
+  <object id="22" name="brick" x="352" y="144" width="16" height="16"/>
+  <object id="23" name="brick" x="384" y="144" width="16" height="16"/>
+  <object id="24" name="brick" x="1280" y="80" width="16" height="16"/>
+  <object id="31" name="brick" x="1296" y="80" width="16" height="16"/>
+  <object id="32" name="brick" x="1312" y="80" width="16" height="16"/>
+  <object id="33" name="brick" x="1328" y="80" width="16" height="16"/>
+  <object id="34" name="brick" x="1376" y="80" width="16" height="16"/>
+  <object id="35" name="brick" x="1360" y="80" width="16" height="16"/>
+  <object id="36" name="brick" x="1344" y="80" width="16" height="16"/>
+  <object id="37" name="brick" x="1392" y="80" width="16" height="16"/>
+  <object id="38" name="brick" x="1456" y="80" width="16" height="16"/>
+  <object id="39" name="brick" x="1488" y="80" width="16" height="16"/>
+  <object id="40" name="brick" x="1472" y="80" width="16" height="16"/>
+  <object id="41" name="brick" x="1232" y="144" width="16" height="16"/>
+  <object id="42" name="brick" x="1264" y="144" width="16" height="16"/>
+  <object id="43" name="brick" x="1504" y="144" width="16" height="16"/>
+  <object id="44" name="brick" x="1599.33" y="144" width="16" height="16"/>
+  <object id="45" name="brick" x="1615.33" y="144" width="16" height="16"/>
+  <object id="46" name="brick" x="1888" y="144" width="16" height="16"/>
+  <object id="47" name="brick" x="1935.33" y="80" width="16" height="16"/>
+  <object id="48" name="brick" x="1967.33" y="80" width="16" height="16"/>
+  <object id="49" name="brick" x="1951.33" y="80" width="16" height="16"/>
+  <object id="50" name="brick" x="2096" y="80" width="16" height="16"/>
+  <object id="51" name="brick" x="2048" y="80" width="16" height="16"/>
+  <object id="52" name="brick" x="2080" y="144" width="16" height="16"/>
+  <object id="53" name="brick" x="2064" y="144" width="16" height="16"/>
+  <object id="54" name="brick" x="2704" y="144" width="16" height="16"/>
+  <object id="55" name="brick" x="2688" y="144" width="16" height="16"/>
+  <object id="56" name="brick" x="2736" y="144" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="Player" visible="0">
+  <object id="57" name="player" x="19.3333" y="185.333" width="14" height="22.6667"/>
+ </objectgroup>
+ <objectgroup name="Enemy" visible="0">
+  <object id="61" name="enemy" x="416" y="192" width="16" height="16"/>
+  <object id="62" name="enemy" x="368" y="192" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="Coin" visible="0">
+  <object id="64" name="coin" x="352" y="80" width="16" height="16"/>
+  <object id="65" name="coin" x="368" y="143.333" width="16" height="16"/>
+  <object id="66" name="coin" x="256" y="143.333" width="16" height="16"/>
+  <object id="69" name="coin" x="1503.33" y="79.3333" width="16" height="16"/>
+  <object id="70" name="coin" x="1504.67" y="143.333" width="16" height="16"/>
+  <object id="71" name="coin" x="1695.33" y="143.333" width="16" height="16"/>
+  <object id="72" name="coin" x="1742.67" y="143.333" width="16" height="16"/>
+  <object id="73" name="coin" x="1791.33" y="143.333" width="16" height="16"/>
+  <object id="74" name="coin" x="2064" y="79.3333" width="16" height="16"/>
+  <object id="75" name="coin" x="2079.33" y="79.3333" width="16" height="16"/>
+  <object id="76" name="coin" x="2719.33" y="143.333" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="Ground">
+  <object id="124" name="ground" x="0" y="208" width="1102.67" height="31.3333"/>
+  <object id="125" name="ground" x="608" y="159.333" width="30.6667" height="48.6667"/>
+  <object id="126" name="ground" x="736" y="144" width="30.6667" height="63.3333"/>
+  <object id="127" name="ground" x="912" y="143.333" width="31.3333" height="64.6667"/>
+  <object id="128" name="ground" x="448" y="176" width="31.3333" height="31.3333"/>
+  <object id="129" name="ground" x="1136" y="208" width="240" height="31.3333"/>
+  <object id="130" name="ground" x="1424" y="207.333" width="1023.33" height="32"/>
+  <object id="137" name="ground" x="2608.67" y="176.667" width="30.6667" height="31.3333"/>
+  <object id="138" name="ground" x="2479.33" y="208" width="1125.33" height="32"/>
+  <object id="139" name="ground" x="2863.33" y="176" width="31.3333" height="30.6667"/>
+  <object id="141" name="ground" x="2144" y="192" width="63.3333" height="15.3333"/>
+  <object id="142" name="ground" x="2160" y="175.333" width="47.3333" height="16"/>
+  <object id="143" name="ground" x="2176" y="160" width="32" height="15.3333"/>
+  <object id="144" name="ground" x="2192" y="143.333" width="16" height="16.6667"/>
+  <object id="146" name="ground" x="2240" y="143.333" width="16" height="16.6667"/>
+  <object id="147" name="ground" x="2240" y="158.667" width="32" height="15.3333"/>
+  <object id="148" name="ground" x="2240" y="190.667" width="63.3333" height="15.3333"/>
+  <object id="149" name="ground" x="2240" y="174" width="47.3333" height="16"/>
+  <object id="150" name="ground" x="2481" y="190.667" width="63.3333" height="15.3333"/>
+  <object id="151" name="ground" x="2481" y="174" width="47.3333" height="16"/>
+  <object id="152" name="ground" x="2481" y="143.333" width="16" height="16.6667"/>
+  <object id="153" name="ground" x="2481" y="158.667" width="32" height="15.3333"/>
+  <object id="154" name="ground" x="2368" y="192" width="79.3333" height="16.6667"/>
+  <object id="155" name="ground" x="2416" y="144" width="32" height="15.3333"/>
+  <object id="156" name="ground" x="2384" y="176" width="63.3333" height="15.3333"/>
+  <object id="157" name="ground" x="2400" y="159.333" width="47.3333" height="16"/>
+  <object id="158" name="ground" x="2944" y="142.667" width="95.3333" height="16.6667"/>
+  <object id="159" name="ground" x="2928" y="159.334" width="111.333" height="15.3333"/>
+  <object id="160" name="ground" x="2896" y="191.334" width="142.667" height="15.3333"/>
+  <object id="161" name="ground" x="2911.33" y="174.667" width="127.333" height="16"/>
+  <object id="162" name="ground" x="3008" y="79.3332" width="32" height="16.6667"/>
+  <object id="163" name="ground" x="2992" y="96.0002" width="48" height="15.3333"/>
+  <object id="164" name="ground" x="2960" y="128" width="79.3333" height="15.3333"/>
+  <object id="165" name="ground" x="2976" y="111.333" width="63.3333" height="16"/>
+  <object id="166" name="ground" x="3167.33" y="191" width="16" height="16.6667"/>
+ </objectgroup>
+</map>

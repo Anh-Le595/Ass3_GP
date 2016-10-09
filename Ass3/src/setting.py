@@ -10,13 +10,13 @@ LIGHT_GREY = (100, 100, 100)
 # game setting
 FPS = 60
 WIDTH = 800
-HEIGHT = 640
+HEIGHT = 600
 CAPTION = "Mario Azawa"
 
 
 GRAVITY = 3
 
-TILE_SIZE = 32
+TILE_SIZE = 16
 BLOCK_SIZE = (TILE_SIZE, TILE_SIZE)
 GRID_WIDTH = WIDTH / TILE_SIZE
 GRID_HEIGHT = HEIGHT / TILE_SIZE
@@ -28,4 +28,4 @@ PLAYER_IMAGE = "images/MarioStanding.png"
 
 
 # paths
-MAP1_PATH = "map/map.txt"
+MAP1_PATH = "map/map1_1.json"
