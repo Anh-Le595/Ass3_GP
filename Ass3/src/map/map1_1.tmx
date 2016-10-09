@@ -76,12 +76,12 @@
   <object id="76" name="coin" x="2719.33" y="143.333" width="16" height="16"/>
  </objectgroup>
  <objectgroup name="Ground">
-  <object id="124" name="ground" x="0" y="208" width="1102.67" height="31.3333"/>
-  <object id="125" name="ground" x="608" y="159.333" width="30.6667" height="48.6667"/>
-  <object id="126" name="ground" x="736" y="144" width="30.6667" height="63.3333"/>
-  <object id="127" name="ground" x="912" y="143.333" width="31.3333" height="64.6667"/>
-  <object id="128" name="ground" x="448" y="176" width="31.3333" height="31.3333"/>
-  <object id="129" name="ground" x="1136" y="208" width="240" height="31.3333"/>
+  <object id="124" name="ground" x="0" y="208" width="1104" height="32"/>
+  <object id="125" name="ground" x="608" y="160" width="32" height="48"/>
+  <object id="126" name="ground" x="736" y="144" width="32" height="64"/>
+  <object id="127" name="ground" x="912" y="144" width="32" height="64"/>
+  <object id="128" name="ground" x="448" y="176" width="32" height="32"/>
+  <object id="129" name="ground" x="1136" y="208" width="240" height="32"/>
   <object id="130" name="ground" x="1424" y="207.333" width="1023.33" height="32"/>
   <object id="137" name="ground" x="2608.67" y="176.667" width="30.6667" height="31.3333"/>
   <object id="138" name="ground" x="2479.33" y="208" width="1125.33" height="32"/>

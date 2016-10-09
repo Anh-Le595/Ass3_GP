@@ -14,7 +14,8 @@ class Player(sprite.Sprite) :
 
         self.image = self.game.player_image
         self.rect = self.image.get_rect()
-        self.vel = math.Vector2(0, 0)
+        self.velx = 0
+        self.vely = 0
         self.width = self.rect.width
         self.height = self.rect.height
 
@@ -30,25 +31,25 @@ class Player(sprite.Sprite) :
 
     def update(self):
         if self.runleft:
-            self.vel.x = -PLAYER_SPEED
+            self.velx = -PLAYER_SPEED
         if self.runright:
-            self.vel.x = PLAYER_SPEED
+            self.velx = PLAYER_SPEED
         if self.jump:
             if self.on_ground:
-                self.vel.y = -JUMP_HEIGHT
+                self.vely = -JUMP_HEIGHT
 
         if not self.on_ground:
-            self.vel.y += GRAVITY
-            if self.vel.y > 8:
-                self.vel.y = 8
+            self.vely += GRAVITY
+            if self.vely > 8:
+                self.vely = 8
 
         if not (self.runleft or self.runright):
-            self.vel.x = 0
-        self.rect.left += self.vel.x
-        self.collide_with_walls(self.vel.x, 0)
-        self.rect.bottom += self.vel.y
+            self.velx = 0
+        self.rect.left += self.velx
+        self.collide_with_walls(self.velx, 0)
+        self.rect.bottom += self.vely
         self.on_ground = False
-        self.collide_with_walls(0, self.vel.y)
+        self.collide_with_walls(0, self.vely)
 
 
 
@@ -63,10 +64,9 @@ class Player(sprite.Sprite) :
                     print(self.on_ground)
                     self.rect.bottom = p.rect.top
                     self.on_ground = True
-                    self.vel.y = 0
+                    self.vely = 0
                 if vy < 0:
                     self.rect.top = p.rect.bottom
-
 
 
 class Ground(sprite.Sprite):
@@ -77,7 +77,7 @@ class Ground(sprite.Sprite):
         self.game = game
 
         self.image = Surface((block["width"], block["height"]))
-        self.image.fill(GREEN)
+        Surface.set_alpha(self.image, 0)
         self.rect = self.image.get_rect()
         self.x = block["x"]
         self.y = block["y"]
@@ -88,8 +88,10 @@ class Ground(sprite.Sprite):
 
 
 class Map:
-    def __init__(self, file_path):
+    def __init__(self, file_path, background):
         self.data = []
+        self.background = image.load(background)
+        self.rect = self.background.get_rect()
         with open(file_path) as file:
             self.data = json.load(file)
         self.tilewidth = self.data["width"]

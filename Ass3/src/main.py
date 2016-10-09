@@ -1,7 +1,7 @@
 from os import path
 import pygame
 from pygame import *
-from src.Objects import *
+from Objects import *
 
 
 
@@ -14,7 +14,7 @@ class Main:
         self.clock = time.Clock()
         game_path = path.dirname(__file__)
         self.player_image = image.load(path.join(game_path, PLAYER_IMAGE))
-        self.map = Map(path.join(game_path, MAP1_PATH))
+        self.map = Map(path.join(game_path, MAP1_PATH), path.join(game_path, BACKGROUND1_PATH))
         self.running = True
 
     def new(self):
@@ -68,7 +68,7 @@ class Main:
                     self.player.jump = False
 
     def draw(self):
-        self.screen.fill((40,40,40))
+        self.screen.blit(self.map.background, self.camera.apply(self.map))
         #self.draw_grid()
         for sprites in self.all_sprites:
             self.screen.blit(sprites.image, self.camera.apply(sprites))
