@@ -1,8 +1,9 @@
 import math
 import json
 from pygame import *
+from os import path
 
-from src.setting import *
+from setting import *
 
 
 class Player(sprite.Sprite) :
@@ -46,14 +47,17 @@ class Player(sprite.Sprite) :
         if not (self.runleft or self.runright):
             self.velx = 0
         self.rect.left += self.velx
-        self.collide_with_walls(self.velx, 0)
+        self.collide_with_ground(self.velx, 0)
+        self.collide_with_brick(self.velx, 0)
         self.rect.bottom += self.vely
         self.on_ground = False
-        self.collide_with_walls(0, self.vely)
+        self.collide_with_ground(0, self.vely)
+        self.collide_with_brick(0,self.vely)
 
 
 
-    def collide_with_walls(self, vx, vy):
+
+    def collide_with_ground(self, vx, vy):
         for p in self.game.ground:
             if sprite.collide_rect(self, p):
                 if vx > 0:
@@ -61,12 +65,29 @@ class Player(sprite.Sprite) :
                 if vx < 0:
                     self.rect.left = p.rect.right
                 if vy > 0:
-                    print(self.on_ground)
+                    # print(self.on_ground)
                     self.rect.bottom = p.rect.top
                     self.on_ground = True
                     self.vely = 0
                 if vy < 0:
                     self.rect.top = p.rect.bottom
+
+    def collide_with_brick(self,vx,vy):
+        for p in self.game.brick:
+            if sprite.collide_rect(self, p):
+                if vx > 0:
+                    self.rect.right = p.rect.left
+                if vx < 0:
+                    self.rect.left = p.rect.right
+                if vy > 0:
+                    # print(self.on_ground)
+                    self.rect.bottom = p.rect.top
+                    self.on_ground = True
+                    self.vely = 0
+                if vy < 0:
+                    #dap be brick
+                    p.kill()
+
 
 
 class Ground(sprite.Sprite):
@@ -85,7 +106,61 @@ class Ground(sprite.Sprite):
         self.rect.top = self.y
 
 
+class Brick(sprite.Sprite):
+    def __init__(self,game,brick):
+        self.groups = game.all_sprites, game.brick
+        sprite.Sprite.__init__(self, self.groups)
 
+        self.game = game
+
+        self.image = image.load(path.join(game_path,"images/brick.png"))
+        self.rect = self.image.get_rect()
+        self.x = brick["x"]
+        self.y = brick["y"]
+        self.rect.left = self.x
+        self.rect.top = self.y
+
+class questionBlock(sprite.Sprite):
+    def __init__(self,game,questionblock):
+        self.groups = game.all_sprites, game.questionblock
+        sprite.Sprite.__init__(self, self.groups)
+
+        self.game = game
+
+        self.image = image.load(path.join(game_path,"images/QuestionBlock.gif"))
+        self.rect = self.image.get_rect()
+        self.x = questionblock["x"]
+        self.y = questionblock["y"]
+        self.rect.left = self.x
+        self.rect.top = self.y
+
+class Coin(sprite.Sprite):
+    def __init__(self,game,coin):
+        self.groups = game.all_sprites, game.coin
+        sprite.Sprite.__init__(self, self.groups)
+
+        self.game = game
+
+        self.image = image.load(path.join(game_path,"images/Coin.gif"))
+        self.rect = self.image.get_rect()
+        self.x = coin["x"]
+        self.y = coin["y"]
+        self.rect.left = self.x
+        self.rect.top = self.y
+
+class Mushroom(sprite.Sprite):
+    def __init__(self,game,mushroom):
+        self.groups = game.all_sprites, game.mushroom
+        sprite.Sprite.__init__(self, self.groups)
+
+        self.game = game
+
+        self.image = image.load(path.join(game_path,"images/mushroom.png"))
+        self.rect = self.image.get_rect()
+        self.x = mushroom["x"]
+        self.y = mushroom["y"]
+        self.rect.left = self.x
+        self.rect.top = self.y
 
 class Map:
     def __init__(self, file_path, background):

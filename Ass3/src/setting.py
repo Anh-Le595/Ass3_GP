@@ -1,3 +1,4 @@
+from os import path
 # colors
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -28,5 +29,6 @@ PLAYER_IMAGE = "images/MarioStanding.png"
 
 
 # paths
+game_path = path.dirname(__file__)
 MAP1_PATH = "map/map1_1.json"
 BACKGROUND1_PATH = "map/background1_1.png"
