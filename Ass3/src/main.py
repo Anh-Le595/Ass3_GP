@@ -12,7 +12,7 @@ class Main:
         self.screen = display.set_mode((WIDTH, HEIGHT))
         display.set_caption(CAPTION)
         self.clock = time.Clock()
-        game_path = path.dirname(__file__)
+        # game_path = path.dirname(__file__)
         self.player_image = image.load(path.join(game_path, PLAYER_IMAGE))
         self.map = Map(path.join(game_path, MAP1_PATH), path.join(game_path, BACKGROUND1_PATH))
         self.running = True
@@ -23,14 +23,16 @@ class Main:
         # create all sprites
         self.all_sprites = sprite.Group()
         self.ground = sprite.Group()
-
+        self.enemy = sprite.Group()
         for layer in self.map.data["layers"]:
             if layer["name"] == "Ground":
                 for ground in layer["objects"]:
                     Ground(self, ground)
             if layer["name"] == "Player":
                 self.player = Player(self, layer["objects"][0]["width"], layer["objects"][0]["height"])
-
+            if layer["name"] == "Enemy":
+                for enemy in layer["objects"]:
+                    Enemy(self, enemy)
         self.camera = Camera(self.map.width, self.map.height)
 
     def run(self):

@@ -1,3 +1,4 @@
+from os import path
 # colors
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -22,11 +23,16 @@ GRID_WIDTH = WIDTH / TILE_SIZE
 GRID_HEIGHT = HEIGHT / TILE_SIZE
 
 # player setting
-PLAYER_SPEED = 10
+PLAYER_SPEED = 5
 JUMP_HEIGHT = 24
 PLAYER_IMAGE = "images/MarioStanding.png"
 
+MARGIN_ENEMY=20
+ENEMY_SPEED =1
+ENEMY_IMAGE = "images/LittleGoomba.gif"
 
 # paths
 MAP1_PATH = "map/map1_1.json"
 BACKGROUND1_PATH = "map/background1_1.png"
+
+game_path = path.dirname(__file__)

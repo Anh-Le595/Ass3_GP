@@ -2,8 +2,8 @@ import math
 import json
 from pygame import *
 
-from src.setting import *
-
+from setting import *
+from os import path
 
 class Player(sprite.Sprite) :
     def __init__(self, game, x, y):
@@ -50,7 +50,8 @@ class Player(sprite.Sprite) :
         self.rect.bottom += self.vely
         self.on_ground = False
         self.collide_with_walls(0, self.vely)
-
+        self.collide_with_enemy(0, self.vely)
+        self.collide_with_enemy(self.velx,0)
 
 
     def collide_with_walls(self, vx, vy):
@@ -61,14 +62,26 @@ class Player(sprite.Sprite) :
                 if vx < 0:
                     self.rect.left = p.rect.right
                 if vy > 0:
-                    print(self.on_ground)
                     self.rect.bottom = p.rect.top
                     self.on_ground = True
                     self.vely = 0
                 if vy < 0:
                     self.rect.top = p.rect.bottom
 
-
+    def collide_with_enemy(self, vx, vy):
+        for p in self.game.enemy:
+            if sprite.collide_rect(self, p):
+                if self.on_ground== True:
+                    if self.rect.centerx<p.rect.left:
+                        self.rect.right = p.rect.left
+                    if self.rect.centerx>p.rect.right:
+                        self.rect.left = p.rect.right
+                    self.game.playing=False
+                if vy > 0:
+                    self.rect.bottom = p.rect.bottom
+                    self.on_ground = True
+                    self.vely = 0
+                    p.kill()
 class Ground(sprite.Sprite):
     def __init__(self, game, block):
         self.groups = game.all_sprites, game.ground
@@ -84,9 +97,35 @@ class Ground(sprite.Sprite):
         self.rect.left = self.x
         self.rect.top = self.y
 
+class Enemy(sprite.Sprite):
+    def __init__(self, game, block):
+        self.groups = game.all_sprites, game.enemy
+        sprite.Sprite.__init__(self, self.groups)
 
+        self.game = game
+        self.visible = block["visible"]
+        self.alive= block["visible"]
+        self.image = image.load(path.join(game_path,ENEMY_IMAGE))
+        self.rect = self.image.get_rect()
+        self.x = block["x"]
+        self.y = block["y"]
+        self.rect.left = self.x
+        self.rect.top = self.y
+        self.runleft = True
+        self.runright = False
 
-
+    def update(self):
+        if self.runleft:
+            self.velx = -ENEMY_SPEED
+        if self.runright:
+            self.velx = ENEMY_SPEED
+        self.rect.left+=self.velx;
+        if self.rect.left<=self.x-MARGIN_ENEMY:
+            self.runright= True
+            self.runleft=False
+        if self.rect.left>=self.x+MARGIN_ENEMY:
+            self.runleft= True
+            self.runright=False
 class Map:
     def __init__(self, file_path, background):
         self.data = []
@@ -122,6 +161,3 @@ class Camera:
         self.camera.y = y
         self.camera.width = WIDTH
         self.camera.height = HEIGHT
-
-
-
