@@ -24,15 +24,11 @@ class Main:
         self.all_sprites = sprite.Group()
         self.deadzone = sprite.Group()
         self.ground = sprite.Group()
-
-        self.enemy = sprite.Group()
-
         self.brick = sprite.Group()
         self.questionblock = sprite.Group()
         self.mushroom = sprite.Group()
         self.coin = sprite.Group()
         self.enemy = sprite.Group()
-
 
         for layer in self.map.data["layers"]:
             if layer["name"] == "Ground":
@@ -44,11 +40,6 @@ class Main:
                         Deadzone(self,zone)
             if layer["name"] == "Player":
                 self.player = Player(self, layer["objects"][0]["width"], layer["objects"][0]["height"])
-
-            if layer["name"] == "Enemy":
-                for enemy in layer["objects"]:
-                    Enemy(self, enemy)
-
             if layer["name"] == "Brick":
                 for brick in layer["objects"]:
                     Brick(self, brick)
@@ -67,7 +58,6 @@ class Main:
                     
             
 
-
         self.camera = Camera(self.map.width, self.map.height)
 
     def run(self):
@@ -79,13 +69,14 @@ class Main:
             self.draw()
             if self.gameover:
                 # print "run"
-                self.running = False
-                self.screen.fill(WHITE)
-                self.text_over = font.SysFont('ActionIsShaded', 50)
-                self.screen_overgame = self.text_over.render("Game Over",True, (255,0,0))
-                self.screen.blit(self.screen_overgame,(WIDTH/2,HEIGHT/2))
+                # self.running = False
+                # self.screen.fill(WHITE)
+                # self.text_over = font.SysFont('ActionIsShaded', 50)
+                # self.screen_overgame = self.text_over.render("Game Over",True, (255,0,0))
+                # self.screen.blit(self.screen_overgame,(WIDTH/2,HEIGHT/2))
                 # self.screen.blit(self.screen_overgame,self.a)
-                
+
+                self.show_go_screen()
 
 
     def update(self):
@@ -129,12 +120,19 @@ class Main:
             draw.line(self.screen, LIGHT_GREY, (0, i), (WIDTH, i))
 
     def show_start_screen(self):
-        pass
-    def show_over_screen(self):
-        self.screen.fill(WHITE)
-        self.text_over = font.SysFont('ActionIsShaded', 50)
-        self.screen_overgame = self.text_over.render("Game Over",True, (255,0,0))
-        self.screen.blit(self.screen_overgame,(WIDTH/2,HEIGHT/2))
+        title = GameMenu(self.screen)
+        title.draw_title()
+
+
+    def show_go_screen(self):
+        self.go_screen = GameGO(self.screen)
+        self.go_screen.draw_gameover()
+
+    # def show_over_screen(self):
+    #     self.screen.fill(WHITE)
+    #     self.text_over = font.SysFont('ActionIsShaded', 50)
+    #     self.screen_overgame = self.text_over.render("Game Over",True, (255,0,0))
+    #     self.screen.blit(self.screen_overgame,(WIDTH/2,HEIGHT/2))
         
 game = Main()
 game.show_start_screen()
@@ -143,9 +141,7 @@ while game.running:
 
     game.new()
     game.run()
-
-
+    game.show_go_screen()
 
 
 quit()
-

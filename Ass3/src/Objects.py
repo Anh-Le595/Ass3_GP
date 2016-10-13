@@ -5,8 +5,6 @@ from os import path
 
 from setting import *
 
-from os import path
-
 
 class Player(sprite.Sprite) :
     def __init__(self, game, x, y):
@@ -51,8 +49,8 @@ class Player(sprite.Sprite) :
 
         if not self.on_ground:
             self.vely += GRAVITY
-            if self.vely > 3:
-                self.vely = 3
+            if self.vely > 8:
+                self.vely = 8
 
         if not (self.runleft or self.runright):
             self.velx = 0
@@ -63,19 +61,13 @@ class Player(sprite.Sprite) :
         self.collide_with_questionblock(self.velx, 0)
         self.rect.bottom += self.vely
         self.on_ground = False
-
-        self.collide_with_ground(0, self.vely)
-        self.collide_with_enemy(self.velx, self.vely)
-        
-
         self.collide_with_ground(0, self.vely)
         self.collide_with_coin()
         self.collide_with_brick(0,self.vely)
         self.collide_with_questionblock(0,self.vely)
         self.collide_with_deadzone()
         self.collide_with_mushroom()
-        
-
+        self.collide_with_enemy(self.velx, self.vely)
 
 
     def collide_with_ground(self, vx, vy):
@@ -120,10 +112,7 @@ class Player(sprite.Sprite) :
                 if vx < 0:
                     self.rect.left = p.rect.right
                 if vy > 0:
-
-
                     # print(self.on_ground)
-
                     self.rect.bottom = p.rect.top
                     self.on_ground = True
                     self.vely = 0
@@ -207,19 +196,6 @@ class Player(sprite.Sprite) :
                 if self.rect.bottom  == p.rect.top and p.rect.left + p.rect.width/2 - 16 == self.rect.left + self.rect.width/2:
                     p.kill()
 
-    # def collide_with_enemy(self):
-        # for p in self.game.enemy:
-            # if sprite.collide_rect(self,p):
-                # # if (self.rect.right == p.rect.left or self.rect.left == p.rect.right):
-                    # # print "Oop"
-                # if self.rect.bottom  == p.rect.top and p.rect.left + p.rect.width/2 - 16 == self.rect.left + self.rect.width/2:
-                    # p.kill()
-                # # else:
-                    # # self.kill()
-                
-                # # print "p",self.rect.bottom, self.rect.top
-                # # print "e",p.rect.bottom,p.rect.top
-
 class Ground(sprite.Sprite):
     def __init__(self, game, block):
         self.groups = game.all_sprites, game.ground
@@ -235,36 +211,6 @@ class Ground(sprite.Sprite):
         self.rect.left = self.x
         self.rect.top = self.y
 
-
-class Enemy(sprite.Sprite):
-    def __init__(self, game, block):
-        self.groups = game.all_sprites, game.enemy
-        sprite.Sprite.__init__(self, self.groups)
-
-        self.game = game
-        self.visible = block["visible"]
-        self.alive= block["visible"]
-        self.image = image.load(path.join(game_path,ENEMY_IMAGE))
-        self.rect = self.image.get_rect()
-        self.x = block["x"]
-        self.y = block["y"]
-        self.rect.left = self.x
-        self.rect.top = self.y
-        self.runleft = True
-        self.runright = False
-
-    def update(self):
-        if self.runleft:
-            self.velx = -ENEMY_SPEED
-        if self.runright:
-            self.velx = ENEMY_SPEED
-        self.rect.left+=self.velx;
-        if self.rect.left<=self.x-MARGIN_ENEMY:
-            self.runright= True
-            self.runleft=False
-        if self.rect.left>=self.x+MARGIN_ENEMY:
-            self.runleft= True
-            self.runright=False
 class Deadzone(sprite.Sprite):
     def __init__(self, game, deadzone):
         self.groups = game.all_sprites, game.deadzone
@@ -342,7 +288,48 @@ class Mushroom(sprite.Sprite):
         self.rect.left = self.x
         self.rect.top = self.y
 
+# class Enemy(sprite.Sprite):
+#     def __init__(self,game, enemy):
+#         self.groups = game.all_sprites, game.enemy
+#         sprite.Sprite.__init__(self, self.groups)
 
+#         self.game = game
+
+#         self.image = image.load(path.join(game_path,"images/enemy.gif"))
+#         self.rect = self.image.get_rect()
+#         self.x = enemy["x"]
+#         self.y = enemy["y"]
+#         self.rect.left = self.x
+#         self.rect.top = self.y
+class Enemy(sprite.Sprite):
+    def __init__(self, game, block):
+        self.groups = game.all_sprites, game.enemy
+        sprite.Sprite.__init__(self, self.groups)
+
+        self.game = game
+        self.visible = block["visible"]
+        self.alive= block["visible"]
+        self.image = image.load(path.join(game_path,ENEMY_IMAGE))
+        self.rect = self.image.get_rect()
+        self.x = block["x"]
+        self.y = block["y"]
+        self.rect.left = self.x
+        self.rect.top = self.y
+        self.runleft = True
+        self.runright = False
+
+    def update(self):
+        if self.runleft:
+            self.velx = -ENEMY_SPEED
+        if self.runright:
+            self.velx = ENEMY_SPEED
+        self.rect.left+=self.velx;
+        if self.rect.left<=self.x-MARGIN_ENEMY:
+            self.runright= True
+            self.runleft=False
+        if self.rect.left>=self.x+MARGIN_ENEMY:
+            self.runleft= True
+            self.runright=False
 class Map:
     def __init__(self, file_path, background):
         self.data = []
@@ -378,3 +365,119 @@ class Camera:
         self.camera.y = y
         self.camera.width = WIDTH
         self.camera.height = HEIGHT
+
+
+
+
+
+class GameMenu:
+    def __init__(self, screen):
+        self.screen = screen
+        self.clock = pygame.time.Clock()
+        self.image = pygame.image.load(TITLE_SCREEN)
+        self.image = pygame.transform.scale(self.image, (WIDTH, HEIGHT))
+        self.instruction_image = pygame.image.load(INSTRUCTION_SCREEN)
+        self.instruction_image = pygame.transform.scale(self.instruction_image, (WIDTH, HEIGHT))
+        self.btnStart = Button('START')
+        self.btnInstruct = Button('INSTRUCTION')
+        self.btnQuit = Button('QUIT')
+        self.btnBack = Button('BACK')
+        self.titleLoop = True
+        self.instructionLoop = False
+        self.mainLoop = True
+
+    def draw_title(self):
+        while self.mainLoop:
+            while self.titleLoop:
+                self.clock.tick(FPS)
+                self.screen.blit(self.image, (0, 0))
+                self.mouse = pygame.mouse.get_pos()
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        self.titleLoop = False
+                        pygame.quit()
+                    elif event.type == pygame.MOUSEBUTTONDOWN:
+                        if self.btnQuit.obj.collidepoint(self.mouse):
+                            self.titleLoop = False
+                            self.instructionLoop = False
+                            self.mainLoop = False
+                            pygame.quit()
+                        elif self.btnStart.obj.collidepoint(self.mouse):
+                            self.titleLoop = False
+                            self.instructionLoop = False
+                            self.mainLoop = False
+                        elif self.btnInstruct.obj.collidepoint(self.mouse):
+                            self.titleLoop = False
+                            self.instructionLoop = True
+                self.btnStart.draw(self.screen, self.mouse, (340, 270, 130, 40), (375, 278))
+                self.btnInstruct.draw(self.screen, self.mouse, (340, 350, 130, 40), (357, 358))
+                self.btnQuit.draw(self.screen, self.mouse, (340, 430, 130, 40), (380, 438))
+                pygame.display.flip()
+            while self.instructionLoop:
+                self.screen.blit(self.instruction_image, (0, 0))
+                self.mouse = pygame.mouse.get_pos()
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        self.instructionLoop = False
+                        self.mainLoop = False
+                        pygame.quit()
+                    elif event.type == pygame.MOUSEBUTTONDOWN:
+                        if self.btnBack.obj.collidepoint(self.mouse):
+                            self.instructionLoop = False
+                            self.titleLoop = True
+                self.btnBack.draw(self.screen, self.mouse, (340, 350, 120, 40), (373, 355))
+                pygame.display.flip()
+                self.clock.tick(FPS)
+
+class GameGO:
+    def __init__(self, screen):
+        self.screen = screen
+        self.clock = pygame.time.Clock()
+        self.image = pygame.image.load(GO_SCREEN)
+        self.image = pygame.transform.scale(self.image, (WIDTH, HEIGHT))
+        self.mainLoop = True
+
+    def draw_gameover(self):
+        # pygame.init()
+        while self.mainLoop:
+            self.clock.tick(FPS)
+            self.screen.blit(self.image, (0, 0))
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    exit()
+            pygame.display.flip()
+class Button:
+    def __init__(self,text):
+        self.text = text
+        self.is_hover = False
+        self.default_color = (100,100,100)
+        self.hover_color = (255,255,255)
+        self.font_color = (0,0,0)
+        self.obj = None
+
+    def label(self):
+        font = pygame.font.Font("FreeSansBold.ttf", 14)
+        return font.render(self.text, 1, self.font_color)
+
+    def color(self):
+        '''change color when hovering'''
+        if self.is_hover:
+            return self.hover_color
+        else:
+            return self.default_color
+
+    def draw(self, screen, mouse, rectcoord, labelcoord):
+        '''create rect obj, draw, and change color based on input'''
+        self.obj = pygame.draw.rect(screen, self.color(), rectcoord)
+        screen.blit(self.label(), labelcoord)
+
+        # change color if mouse over button
+        self.check_hover(mouse)
+
+    def check_hover(self, mouse):
+        '''adjust is_hover value based on mouse over button - to change hover color'''
+        if self.obj.collidepoint(mouse):
+            self.is_hover = True
+        else:
+            self.is_hover = False

@@ -1,9 +1,6 @@
 from os import path
-
-
 import pygame
 from pygame.locals import *
-
 
 
 # colors
@@ -32,23 +29,14 @@ GRID_HEIGHT = HEIGHT / TILE_SIZE
 
 # player setting
 PLAYER_SPEED = 3
-
 JUMP_HEIGHT = 24
 PLAYER_IMAGE = "images/MarioStanding.png"
+PLAYER_UP_IMAGE = "images/SuperMarioStanding.png"
 
+# enemy
 MARGIN_ENEMY=20
 ENEMY_SPEED =1
-ENEMY_IMAGE = "images/LittleGoomba.gif"
-
-# paths
-MAP1_PATH = "map/map1_1.json"
-BACKGROUND1_PATH = "map/background1_1.png"
-
-game_path = path.dirname(__file__)
-
-JUMP_HEIGHT = 20
-PLAYER_IMAGE = "images/MarioStanding.png"
-PLAYER_UP_IMAGE = "images/SuperMarioStanding.png"
+ENEMY_IMAGE = "images/enemy.gif"
 
 # paths
 game_path = path.dirname(__file__)
@@ -62,3 +50,7 @@ in_y = 331
 out_x = 2618
 out_y = 144
 
+# image
+TITLE_SCREEN = 'images/TitleScreen.png'
+GO_SCREEN = "images/GOScreen.png"
+INSTRUCTION_SCREEN = "images/Instruction.png"
