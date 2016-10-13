@@ -2,7 +2,7 @@ from os import path
 import pygame
 from pygame import *
 from Objects import *
-
+from setting import *
 
 
 class Main:
@@ -16,36 +16,47 @@ class Main:
         self.player_image = image.load(path.join(game_path, PLAYER_IMAGE))
         self.map = Map(path.join(game_path, MAP1_PATH), path.join(game_path, BACKGROUND1_PATH))
         self.running = True
-
+        self.gameover =False
     def new(self):
         # start a new game
 
         # create all sprites
         self.all_sprites = sprite.Group()
+        self.deadzone = sprite.Group()
         self.ground = sprite.Group()
         self.brick = sprite.Group()
         self.questionblock = sprite.Group()
+        self.mushroom = sprite.Group()
         self.coin = sprite.Group()
+        self.enemy = sprite.Group()
 
         for layer in self.map.data["layers"]:
             if layer["name"] == "Ground":
                 for ground in layer["objects"]:
                     Ground(self, ground)
+            if layer["name"] == "GameZone":
+                for zone in layer["objects"]:
+                    if zone["name"] == "deadzone":
+                        Deadzone(self,zone)
             if layer["name"] == "Player":
                 self.player = Player(self, layer["objects"][0]["width"], layer["objects"][0]["height"])
             if layer["name"] == "Brick":
                 for brick in layer["objects"]:
                     Brick(self, brick)
-            if layer["name"] == "Item":
-                for item in layer["objects"]:
-                    if item["name"] == "Coin":
-                        Coin(self,item)
-                    # if item["name"] == "mushroom":
-                    #     Mushroom(self,item)
-
             if layer["name"] == "QuestionBlock":
                 for questionblock in layer["objects"]:
                     questionBlock(self, questionblock)
+            if layer["name"] == "Enemy":
+                for enemy in layer["objects"]:
+                    Enemy(self,enemy)
+                
+                # coin will display on screen, not in questionblock 
+            if layer["name"] == "Item":
+                for item in layer["objects"]:
+                    if item["name"] == "coin":
+                        Coin(self,item["x"],item["y"])
+                    
+            
 
         self.camera = Camera(self.map.width, self.map.height)
 
@@ -56,6 +67,15 @@ class Main:
             self.events()
             self.update()
             self.draw()
+            if self.gameover:
+                # print "run"
+                self.running = False
+                self.screen.fill(WHITE)
+                self.text_over = font.SysFont('ActionIsShaded', 50)
+                self.screen_overgame = self.text_over.render("Game Over",True, (255,0,0))
+                self.screen.blit(self.screen_overgame,(WIDTH/2,HEIGHT/2))
+                # self.screen.blit(self.screen_overgame,self.a)
+                
 
 
     def update(self):
@@ -88,6 +108,8 @@ class Main:
         #self.draw_grid()
         for sprites in self.all_sprites:
             self.screen.blit(sprites.image, self.camera.apply(sprites))
+        self.screen.blit(self.total_score,(50,50))
+        # self.screen.blit(self.over,(100,100))
         display.flip()
 
     def draw_grid(self):
@@ -98,12 +120,20 @@ class Main:
 
     def show_start_screen(self):
         pass
-    def show_go_screen(self):
-        pass
+    def show_over_screen(self):
+        self.screen.fill(WHITE)
+        self.text_over = font.SysFont('ActionIsShaded', 50)
+        self.screen_overgame = self.text_over.render("Game Over",True, (255,0,0))
+        self.screen.blit(self.screen_overgame,(WIDTH/2,HEIGHT/2))
+        
 game = Main()
 game.show_start_screen()
 while game.running:
+    # print game.gameover
+
     game.new()
     game.run()
-    game.show_go_screen()
+
+
+
 quit()
