@@ -12,11 +12,14 @@ class Main:
         self.screen = display.set_mode((WIDTH, HEIGHT))
         display.set_caption(CAPTION)
         self.clock = time.Clock()
-        # game_path = path.dirname(__file__)
-        self.player_image = image.load(path.join(game_path, PLAYER_IMAGE))
+        # self.player_image = image.load(path.join(game_path, PLAYER_IMAGE))
+        # self.player_image = self.list_run_frame_r[0]
+        self.player_image = image.load(path.join(game_path,RUN))
+        self.player_image = transform.scale(self.player_image,(32,32))
         self.map = Map(path.join(game_path, MAP1_PATH), path.join(game_path, BACKGROUND1_PATH))
         self.running = True
-        self.gameover =False
+        self.gameover = False
+        
     def new(self):
         # start a new game
 
@@ -92,10 +95,12 @@ class Main:
             if events.type == KEYDOWN:
                 if events.key == K_LEFT:
                     self.player.runleft = True
-                if events.key == K_RIGHT:
+                elif events.key == K_RIGHT:
                     self.player.runright = True
-                if events.key == K_a:
+                elif events.key == K_a:
                     self.player.jump = True
+                elif events.key == K_DOWN:
+                    self.player.stand = True
             if events.type == KEYUP:
                 if events.key == K_LEFT:
                     self.player.runleft = False

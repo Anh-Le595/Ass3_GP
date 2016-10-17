@@ -5,7 +5,6 @@ from os import path
 
 from setting import *
 
-
 class Player(sprite.Sprite) :
     def __init__(self, game, x, y):
 
@@ -23,7 +22,7 @@ class Player(sprite.Sprite) :
         self.Super = False
         # position of player
         self.rect.bottomleft = (x, y)
-
+        self.battu = 0
         # score
         self.score = 0
         self.game.font_score = pygame.font.SysFont('ActionIsShaded', 50)
@@ -35,9 +34,38 @@ class Player(sprite.Sprite) :
         self.runleft = False
         self.runright = False
         self.jump = False
+        self.dead = False
         self.on_ground = False
 
-
+        self.count = 0
+    def checkdirection(self):
+        if self.runright == True:
+            pos = self.rect.x + 32
+            frame = (pos // 30) % len(list_run_frame_r)
+            # print "frame" + str(frame) + "len" + str(len(list_run_frame_r))
+            self.image = list_run_frame_r[frame]
+        elif self.runleft == True:
+            pos = self.rect.x
+            frame = (pos // 30) % len(list_run_frame_l)
+            # print "frame" + str(frame) + "len" + str(len(list_run_frame_l))
+            self.image = list_run_frame_l[frame]
+        elif (self.jump == True and self.runright) or (self.jump == True and self.runleft == True):
+            pos = self.rect.y
+            frame = (pos // 30) % len(list_run_frame_up)
+            self.image = list_run_frame_up[frame]
+        elif self.stand == True:
+            if self.count < len(list_run_frame_idle):
+                self.image = list_run_frame_idle[self.count]
+                self.count += 1
+            else:
+                self.count = 0
+            print self.count
+        elif self.dead == True:
+            if self.count < len(list_run_frame_dead):
+                self.image = list_run_frame_idle[self.count]
+                self.count += 1
+            else:
+                self.count = 0
     def update(self):
         if self.runleft:
             self.velx = -PLAYER_SPEED
@@ -46,11 +74,10 @@ class Player(sprite.Sprite) :
         if self.jump:
             if self.on_ground:
                 self.vely = -JUMP_HEIGHT
-
         if not self.on_ground:
             self.vely += GRAVITY
-            if self.vely > 8:
-                self.vely = 8
+            if self.vely > 3:
+                self.vely = 3
 
         if not (self.runleft or self.runright):
             self.velx = 0
@@ -68,6 +95,7 @@ class Player(sprite.Sprite) :
         self.collide_with_deadzone()
         self.collide_with_mushroom()
         self.collide_with_enemy(self.velx, self.vely)
+        self.checkdirection()
 
 
     def collide_with_ground(self, vx, vy):
@@ -135,7 +163,11 @@ class Player(sprite.Sprite) :
         for p in self.game.mushroom:
             if sprite.collide_rect(self,p):
                 self.image = image.load(path.join(game_path,PLAYER_UP_IMAGE))
+                # self.image = list_run_frame_r[5]
+                # self.image = image.load(path.join(game_path,RUN))
+                # self.image = transform.scale(self.image,(64,64))
                 self.Super = True
+                self.battu = 50
                 self.rect.height = self.image.get_rect().height
                 self.rect.width = self.image.get_rect().width 
                 # self.rect = self.image.get_rect()
@@ -180,21 +212,94 @@ class Player(sprite.Sprite) :
 
 
     def collide_with_enemy(self, vx, vy):
+
         for p in self.game.enemy:
             if sprite.collide_rect(self, p):
-                if vy==0:
-                    if self.rect.centerx<p.rect.left:
-                        self.rect.right = p.rect.left
-                    if self.rect.centerx>p.rect.right:
-                        self.rect.left = p.rect.right
-                    self.game.playing=False
-                if vy > 0:
-                    self.rect.bottom = p.rect.bottom
-                    self.on_ground = True
-                    self.vely = 0
-                    p.kill()
-                if self.rect.bottom  == p.rect.top and p.rect.left + p.rect.width/2 - 16 == self.rect.left + self.rect.width/2:
-                    p.kill()
+                print self.battu
+                if self.battu > 0: 
+                    self.battu -= 1
+                    # self.image = image.load(path.join(game_path,PLAYER_IMAGE))
+                    self.Super = False
+                    self.rect.height = self.image.get_rect().height
+                    self.rect.width = self.image.get_rect().width 
+                    # self.rect = self.image.get_rect()
+                    # self.bottomleft = self.rect.x + self.velx
+                    self.rect.bottomleft = (self.rect.left,self.rect.bottom)
+                else:
+                    if vy==0:
+                        if self.rect.centerx<p.rect.left:
+                            self.rect.right = p.rect.left
+                        if self.rect.centerx>p.rect.right:
+                            self.rect.left = p.rect.right
+                        self.game.playing=False
+                    if self.Super == True:
+                        if vy > 0:
+                            self.rect.bottom = p.rect.bottom
+                            self.on_ground = True
+                            self.vely = 0
+                            # self.image = image.load(path.join(game_path,PLAYER_IMAGE))
+                            self.rect.height = self.image.get_rect().height
+                            self.rect.width = self.image.get_rect().width 
+                            self.rect.bottomleft = (self.rect.left,self.rect.bottom)
+                            self.Super = False
+                            self.dead = True
+                            # p.kill()
+                        if self.rect.bottom  == p.rect.top and p.rect.left + p.rect.width/2 - 16 == self.rect.left + self.rect.width/2:
+                            # p.kill()
+                            # self.image = image.load(path.join(game_path,PLAYER_IMAGE))
+                            self.rect.height = self.image.get_rect().height
+                            self.rect.width = self.image.get_rect().width 
+                            self.rect.bottomleft = (self.rect.left,self.rect.bottom)
+                            self.Super = False
+                            self.dead = True
+                    else:
+                        if vy > 0:
+                            self.rect.bottom = p.rect.bottom
+                            self.on_ground = True
+                            self.vely = 0
+                            p.kill()
+                        if self.rect.bottom  == p.rect.top and p.rect.left + p.rect.width/2 - 16 == self.rect.left + self.rect.width/2:
+                            p.kill()
+                    self.dead = True
+
+class Bullet(sprite.Sprite):
+    def __init__(self,game,bullet):
+        self.groups = game.all_sprites, game.bullet
+        sprite.Sprite.__init__(self,self.groups)
+
+        self.game = game
+        # not have image
+        # self.image = image.load(path.join(game_path,))
+
+class Enemy(sprite.Sprite):
+    def __init__(self, game, block):
+        self.groups = game.all_sprites, game.enemy
+        sprite.Sprite.__init__(self, self.groups)
+
+        self.game = game
+        self.visible = block["visible"]
+        self.alive= block["visible"]
+        self.image = image.load(path.join(game_path,ENEMY_IMAGE))
+        self.rect = self.image.get_rect()
+        self.x = block["x"]
+        self.y = block["y"]
+        self.rect.left = self.x
+        self.rect.top = self.y
+        self.runleft = True
+        self.runright = False
+
+    def update(self):
+        if self.runleft:
+            self.velx = -ENEMY_SPEED
+        if self.runright:
+            self.velx = ENEMY_SPEED
+        self.rect.left+=self.velx;
+        if self.rect.left<=self.x-MARGIN_ENEMY:
+            self.runright= True
+            self.runleft=False
+        if self.rect.left>=self.x+MARGIN_ENEMY:
+            self.runleft= True
+            self.runright=False
 
 class Ground(sprite.Sprite):
     def __init__(self, game, block):
@@ -282,54 +387,16 @@ class Mushroom(sprite.Sprite):
         self.game = game
 
         self.image = image.load(path.join(game_path,"images/mushroom.png"))
+        
+
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y
         self.rect.left = self.x
         self.rect.top = self.y
 
-# class Enemy(sprite.Sprite):
-#     def __init__(self,game, enemy):
-#         self.groups = game.all_sprites, game.enemy
-#         sprite.Sprite.__init__(self, self.groups)
 
-#         self.game = game
 
-#         self.image = image.load(path.join(game_path,"images/enemy.gif"))
-#         self.rect = self.image.get_rect()
-#         self.x = enemy["x"]
-#         self.y = enemy["y"]
-#         self.rect.left = self.x
-#         self.rect.top = self.y
-class Enemy(sprite.Sprite):
-    def __init__(self, game, block):
-        self.groups = game.all_sprites, game.enemy
-        sprite.Sprite.__init__(self, self.groups)
-
-        self.game = game
-        self.visible = block["visible"]
-        self.alive= block["visible"]
-        self.image = image.load(path.join(game_path,ENEMY_IMAGE))
-        self.rect = self.image.get_rect()
-        self.x = block["x"]
-        self.y = block["y"]
-        self.rect.left = self.x
-        self.rect.top = self.y
-        self.runleft = True
-        self.runright = False
-
-    def update(self):
-        if self.runleft:
-            self.velx = -ENEMY_SPEED
-        if self.runright:
-            self.velx = ENEMY_SPEED
-        self.rect.left+=self.velx;
-        if self.rect.left<=self.x-MARGIN_ENEMY:
-            self.runright= True
-            self.runleft=False
-        if self.rect.left>=self.x+MARGIN_ENEMY:
-            self.runleft= True
-            self.runright=False
 class Map:
     def __init__(self, file_path, background):
         self.data = []
