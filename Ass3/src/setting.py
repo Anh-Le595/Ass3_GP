@@ -17,7 +17,7 @@ GREY = (40, 40, 40)
 # game setting
 
 TILE_SIZE = 128
-BLOCK_SIZE = (TILE_SIZE, TILE_SIZE)
+BLOCK_SIZE = (TILE_SIZE/2, TILE_SIZE/2)
 
 
 FPS = 60
@@ -27,13 +27,13 @@ CAPTION = "Mario Azawa"
 GRID_WIDTH = WIDTH / TILE_SIZE
 GRID_HEIGHT = HEIGHT / TILE_SIZE
 
-GRAVITY = 3
+GRAVITY = 50
 
 
 
 # player setting
-PLAYER_SPEED = 3
-JUMP_HEIGHT = 20
+PLAYER_SPEED = 8
+JUMP_HEIGHT = 64
 PLAYER_IMAGE = "images/MarioStanding.png"
 PLAYER_UP_IMAGE = "images/SuperMarioStanding.png"
 RUN = "img/Run (1).png"
@@ -79,7 +79,7 @@ for i in range(8):
     images = transform.scale(images,BLOCK_SIZE)
     list_run_frame_l.append(images)
 # jump
-for i in range(10):
+for i in range(7,10):
     images = image.load(path.join(game_path,"img/Jump (" + str(i+1)+").png"))
     images = transform.scale(images,BLOCK_SIZE)
     list_run_frame_up.append(images)
@@ -93,3 +93,5 @@ for i in range(10):
     images = image.load(path.join(game_path,"img/Dead (" + str(i+1)+").png"))
     images = transform.scale(images,BLOCK_SIZE)
     list_run_frame_dead.append(images)
+
+

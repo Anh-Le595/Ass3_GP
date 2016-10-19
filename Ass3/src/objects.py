@@ -34,38 +34,56 @@ class Player(sprite.Sprite):
         self.runleft = False
         self.runright = False
         self.jump = False
+        self.climb = False
         self.dead = False
         self.on_ground = False
+        self.on_ladder = False
+        self.check_first_loop = False
+
+        self.check_up = False
+        self.check_down = False
+
+        self.time = 10
 
         self.count = 0
 
     def checkdirection(self):
-        if self.runright == True:
+        if self.runright:
+            print "1"
             pos = self.rect.x + 32
             frame = (pos // 30) % len(list_run_frame_r)
             # print "frame" + str(frame) + "len" + str(len(list_run_frame_r))
             self.image = list_run_frame_r[frame]
-        elif self.runleft == True:
+        elif self.runleft:
+            print "2"
             pos = self.rect.x
             frame = (pos // 30) % len(list_run_frame_l)
             # print "frame" + str(frame) + "len" + str(len(list_run_frame_l))
             self.image = list_run_frame_l[frame]
-        elif (self.jump == True and self.runright) or (self.jump == True and self.runleft == True):
-            pos = self.rect.y
-            frame = (pos // 30) % len(list_run_frame_up)
-            self.image = list_run_frame_up[frame]
-        elif self.stand == True:
+        # elif (self.jump == True and self.runright) or (self.jump == True and self.runleft == True):
+        elif not self.on_ground:
+            print "3"
+            if self.count < len(list_run_frame_up):
+                self.image = list_run_frame_up[self.count]
+                # print (i,self.count)
+                self.count += 1
+            else:
+                self.count = 0
+        # elif self.stand == True:
+        elif self.on_ground:
+            print "4"
             if self.count < len(list_run_frame_idle):
                 self.image = list_run_frame_idle[self.count]
                 self.count += 1
             else:
                 self.count = 0
-        elif self.dead == True:
-            if self.count < len(list_run_frame_dead):
-                self.image = list_run_frame_idle[self.count]
-                self.count += 1
-            else:
-                self.count = 0
+        # elif self.dead == True:
+        #     if self.count < len(list_run_frame_dead):
+        #         self.image = list_run_frame_dead[self.count]
+        #         self.count += 1
+        #     else:
+        #         self.count = 0
+
 
     def update(self):
         if self.runleft:
@@ -75,23 +93,37 @@ class Player(sprite.Sprite):
         if self.jump:
             if self.on_ground:
                 self.vely = -JUMP_HEIGHT
+        if self.climb:
+            if self.on_ground:
+                self.rect.y -= 5
         if not self.on_ground:
             self.vely += GRAVITY
             if self.vely > 3:
                 self.vely = 3
-
         if not (self.runleft or self.runright):
             self.velx = 0
+
+        self.time -= 1
+        if self.time == 0:
+            self.checkdirection()
+        if self.time < 0:
+            self.time = 10
+        self.collide_with_ladder()
         self.rect.left += self.velx
         self.collide_with_ground(self.velx, 0)
         self.rect.bottom += self.vely
         self.on_ground = False
         self.collide_with_ground(0, self.vely)
-        self.checkdirection()
+        
+        # print self.time
+        # self.checkdirection()
+        # self.count += 1
+        # print self.count
+
 
     def collide_with_ground(self, vx, vy):
         for p in self.game.ground:
-            if sprite.collide_rect(self, p):
+            if sprite.collide_rect(self, p):    
                 if vx > 0:
                     self.rect.right = p.rect.left
 
@@ -104,8 +136,55 @@ class Player(sprite.Sprite):
                     self.vely = 0
                 if vy < 0:
                     self.rect.top = p.rect.bottom
+        # self.on_ground = True
 
+    def collide_with_ladder(self):
+        for p in self.game.ladder:
+            if sprite.collide_rect(self, p):
+                if self.check_up == False:
+                    self.rect.top = (p.rect.top + p.rect.bottom)/2 + 32
+                # self.rect.top = (p.rect.top + p.rect.bottom)/2 + 32   
+                # if self.rect.top == (p.rect.top + p.rect.bottom)/2 + 32:
+                if key.get_pressed()[K_UP]:
+                    # self.rect.left = p.rect.left
+                    # self.vely = 0
+                    # self.on_ground = True
+                    # self.rect.bottom =  p.rect.top
+                    self.check_up = True
+                if self.check_up ==  True:
+                    self.rect.bottom =  p.rect.top
+                    if key.get_pressed()[K_DOWN]:
+                #     # self.rect.left = p.rect.left
+                #     # self.vely = 0
+                #     # self.on_ground = True
+                #     # self.rect.bottom =  p.rect.top
+                        self.check_first_loop = False
+                        self.check_down = True
+                    if self.check_down ==  True and self.check_first_loop == False:
+                        self.rect.top =  p.rect.bottom  
+                        self.check_up = False
+                        self.check_first_loop = True  
+                    # if self.rect.bottom == p.rect.top:
+                        # print "a"
+                        # if key.get_pressed()[K_DOWN]:
+                            # print "b"
+                            # self.rect.x -= 10
+                # if self.rect.bottom == p.rect.top:
+                #     # self.rect.bottom = p.rect.top
+                # # if self.check
+                #     if key.get_pressed()[K_DOWN]:
+                #         self.rect.top = p.rect.bottom  
+                # if key.get_pressed()[K_DOWN]:
+                # #     # self.rect.left = p.rect.left
+                # #     # self.vely = 0
+                # #     # self.on_ground = True
+                # #     # self.rect.bottom =  p.rect.top
+                #     self.check_down = True
+                # if self.check_down ==  True:
+                #     self.rect.top =  p.rect.bottom
 
+                # self.check_up = False        
+                                        
 class Bullet(sprite.Sprite):
     def __init__(self, game, bullet):
         self.groups = game.all_sprites, game.bullet
@@ -137,6 +216,23 @@ class Ground(sprite.Sprite):
     def load_img(self):
         pass
 
+
+class Ladder(sprite.Sprite):
+    def __init__(self, game, ladder):
+        self.groups = game.all_sprites, game.ladder
+        sprite.Sprite.__init__(self, self.groups)
+
+        self.game = game
+        self.image = Surface((ladder["width"], ladder["height"]))
+        self.image.fill(BLUE)
+
+        self.rect = self.image.get_rect()
+        self.x = ladder["x"]
+        self.y = ladder["y"]
+        self.rect.left = self.x
+        self.rect.top = self.y
+    def load_img(self):
+        pass
 
 
 
