@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="left-up" width="152" height="43" tilewidth="128" tileheight="128" nextobjectid="164">
+ <tileset firstgid="1" name="map" tilewidth="32" tileheight="32" tilecount="6579" columns="153">
+  <image source="C:/Users/THC/Desktop/map.png" width="4896" height="1376"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="152" height="43" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJztwTEBAAAAwqD1T20KP6AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAeBhmIAAB
+  </data>
+ </layer>
+ <objectgroup name="Ground" offsetx="0" offsety="4">
+  <object id="1" name="ground" x="0" y="5376" width="2176" height="128"/>
+  <object id="2" name="ground" type="small" x="0" y="4360.61" width="64" height="1018.18"/>
+  <object id="3" name="ground" type="small" x="1024" y="5120" width="955" height="64"/>
+  <object id="4" name="ground" x="1024" y="4480" width="128" height="640"/>
+  <object id="5" name="ground" x="1152" y="4480" width="4032" height="124.242"/>
+  <object id="6" name="ground" x="2048" y="4864" width="128" height="512"/>
+  <object id="7" name="ground" type="small" x="1216" y="4864" width="832" height="64"/>
+  <object id="8" name="ground" type="small" x="1920" y="4800" width="256" height="64"/>
+  <object id="9" name="ground" type="small" x="1920" y="4736" width="576" height="64"/>
+  <object id="10" name="ground" x="2368" y="5248" width="320" height="256"/>
+  <object id="11" name="ground" x="2688" y="5312" width="896" height="192"/>
+  <object id="12" name="ground" x="3200" y="4608" width="128" height="320"/>
+  <object id="13" name="ground" type="small" x="2368" y="4928" width="1088" height="64"/>
+  <object id="14" name="ground" type="small" x="2816" y="4864" width="384" height="64"/>
+  <object id="15" name="ground" x="2944" y="4800" width="256" height="64"/>
+  <object id="16" name="ground" type="small" x="3584" y="4928" width="128" height="64"/>
+  <object id="17" name="ground" x="4224" y="5320" width="1276" height="180"/>
+  <object id="18" name="ground" x="5376" y="3652" width="124" height="1666"/>
+  <object id="19" name="ground" x="5248" y="4480" width="128" height="128"/>
+  <object id="21" name="ground" x="4352" y="2764" width="128" height="2160"/>
+  <object id="22" name="ground" type="small" x="3840" y="5184" width="128" height="64"/>
+  <object id="23" name="ground" x="4797" y="5192" width="172" height="124"/>
+  <object id="24" name="ground" type="small" x="4352" y="4924" width="308" height="64"/>
+  <object id="25" name="ground" type="small" x="5500" y="3646" width="256" height="64"/>
+  <object id="26" name="ground" x="5956" y="3524" width="1272" height="184"/>
+  <object id="27" name="ground" x="5384" y="3196" width="372" height="384"/>
+  <object id="28" name="ground" type="small" x="4674" y="3584" width="1086" height="64"/>
+  <object id="29" name="ground" type="small" x="5314" y="3196" width="64" height="384"/>
+  <object id="30" name="ground" type="small" x="5314" y="3128" width="442" height="64"/>
+  <object id="31" name="ground" type="small" x="4352" y="2692" width="6656" height="76"/>
+  <object id="32" name="ground" type="small" x="4484" y="3264" width="192" height="64"/>
+  <object id="33" name="ground" type="small" x="4864" y="3260" width="192" height="64"/>
+  <object id="34" name="ground" type="small" x="4992" y="3132" width="254" height="64"/>
+  <object id="35" name="ground" type="small" x="4992" y="3198" width="64" height="64"/>
+  <object id="36" name="ground" x="7428" y="3524" width="892" height="184"/>
+  <object id="37" name="ground" x="8520" y="3528" width="756" height="184"/>
+  <object id="38" name="ground" x="9472" y="3528" width="260" height="184"/>
+  <object id="39" name="ground" x="9926" y="3528" width="756" height="184"/>
+  <object id="40" name="ground" x="10877" y="2768" width="128" height="1772"/>
+  <object id="41" name="ground" x="9984" y="3712" width="696" height="68"/>
+  <object id="42" name="ground" x="9856" y="3712" width="124" height="1776"/>
+  <object id="43" name="ground" x="10246" y="4422" width="504" height="120"/>
+  <object id="44" name="ground" type="small" x="10116" y="4360" width="636" height="60"/>
+  <object id="45" name="ground" x="10116" y="3964" width="124" height="396"/>
+  <object id="47" name="ground" type="small" x="10244" y="4604" width="64" height="452"/>
+  <object id="48" name="ground" x="10240" y="5316" width="896" height="176"/>
+  <object id="49" name="ground" type="small" x="10244" y="4540" width="2684" height="64"/>
+  <object id="50" name="ground" type="small" x="10424" y="4740" width="836" height="64"/>
+  <object id="51" name="ground" type="small" x="10314" y="4992" width="728" height="64"/>
+  <object id="52" name="ground" type="small" x="10242" y="5248" width="888" height="64"/>
+  <object id="53" name="ground" x="11136" y="4808" width="128" height="688"/>
+  <object id="54" name="ground" type="small" x="11331" y="4924" width="188" height="64"/>
+  <object id="55" name="ground" type="small" x="11264" y="4740" width="64" height="760"/>
+  <object id="56" name="ground" x="11334" y="4992" width="128" height="512"/>
+  <object id="57" name="ground" type="small" x="11456" y="4992" width="64" height="508"/>
+  <object id="58" name="ground" type="small" x="11964" y="4998" width="64" height="504"/>
+  <object id="59" name="ground" x="11842" y="4994" width="128" height="512"/>
+  <object id="60" name="ground" type="small" x="11776" y="4994" width="64" height="508"/>
+  <object id="61" name="ground" type="small" x="11779" y="4926" width="248" height="64"/>
+  <object id="66" name="ground" type="small" x="11712" y="5244" width="64" height="258"/>
+  <object id="67" name="ground" x="11590" y="5242" width="120" height="264"/>
+  <object id="68" name="ground" type="small" x="11520" y="5242" width="64" height="260"/>
+  <object id="69" name="ground" type="small" x="11527" y="5172" width="248" height="64"/>
+  <object id="70" name="ground" type="small" x="12156" y="5120" width="128" height="72"/>
+  <object id="71" name="ground" type="small" x="12416" y="4996" width="128" height="68"/>
+  <object id="72" name="ground" x="12672" y="5380" width="1344" height="116"/>
+  <object id="73" name="ground" type="small" x="12676" y="5312" width="1274" height="64"/>
+  <object id="74" name="ground" x="12924" y="1592" width="128" height="3460"/>
+  <object id="75" name="ground" type="small" x="12857" y="4606" width="64" height="446"/>
+  <object id="76" name="ground" type="small" x="12856" y="5056" width="324" height="64"/>
+  <object id="79" name="ground" type="small" x="13310" y="5056" width="256" height="64"/>
+  <object id="80" name="ground" type="small" x="13690" y="5056" width="120" height="64"/>
+  <object id="81" name="ground" type="small" x="13951" y="2562" width="64" height="2820"/>
+  <object id="82" name="ground" type="small" x="13183" y="4740" width="256" height="64"/>
+  <object id="84" name="ground" type="small" x="13688" y="4740" width="256" height="64"/>
+  <object id="85" name="ground" x="13744" y="4288" width="128" height="64"/>
+  <object id="86" name="ground" x="13428" y="4312" width="128" height="64"/>
+  <object id="87" name="ground" x="13184" y="4152" width="128" height="64"/>
+  <object id="88" name="ground" type="small" x="13134" y="3648" width="812" height="64"/>
+  <object id="89" name="ground" type="small" x="13134" y="3580" width="812" height="64"/>
+  <object id="90" name="ground" type="small" x="13056" y="3080" width="820" height="64"/>
+  <object id="91" name="ground" type="small" x="13134" y="2560" width="810" height="64"/>
+  <object id="92" name="ground" type="small" x="13132" y="2496" width="1836" height="64"/>
+  <object id="93" name="ground" type="small" x="13132" y="2046" width="64" height="440"/>
+  <object id="94" name="ground" type="small" x="13056" y="1590" width="1528" height="64"/>
+  <object id="96" name="ground" type="small" x="13316" y="1660" width="64" height="572"/>
+  <object id="97" name="ground" type="small" x="13316" y="2240" width="1324" height="64"/>
+  <object id="98" name="ground" type="small" x="14656" y="1668" width="64" height="180"/>
+  <object id="99" name="ground" type="small" x="14976" y="900" width="64" height="1664"/>
+  <object id="100" name="ground" x="14808" y="2388" width="164" height="104"/>
+  <object id="101" name="ground" type="small" x="14392" y="2108" width="64" height="132"/>
+  <object id="102" name="ground" type="small" x="14330" y="2044" width="128" height="64"/>
+  <object id="103" name="ground" type="small" x="13570" y="1852" width="1144" height="64"/>
+  <object id="104" name="ground" type="small" x="14662" y="1600" width="312" height="64"/>
+  <object id="105" name="ground" type="small" x="14012" y="2" width="64" height="1584"/>
+  <object id="106" name="ground" type="small" x="14082" y="1456" width="504" height="64"/>
+  <object id="107" name="ground" type="small" x="14082" y="1528" width="504" height="64"/>
+  <object id="108" name="ground" type="small" x="14662" y="1462" width="308" height="64"/>
+  <object id="109" name="ground" type="small" x="14659" y="1531" width="312" height="64"/>
+  <object id="110" name="ground" type="small" x="14464" y="1088" width="128" height="64"/>
+  <object id="111" name="ground" type="small" x="14532" y="831" width="2104" height="64"/>
+  <object id="114" name="ground" type="small" x="14083" y="836" width="372" height="64"/>
+  <object id="115" name="ground" type="small" x="14082" y="4" width="2556" height="64"/>
+  <object id="116" name="ground" type="small" x="14082" y="316" width="568" height="64"/>
+  <object id="117" name="ground" type="small" x="15490" y="316" width="1024" height="64"/>
+  <object id="118" name="ground" type="small" x="14788" y="628" width="128" height="64"/>
+  <object id="119" name="ground" type="small" x="15144" y="508" width="128" height="64"/>
+  <object id="120" name="ground" x="16000" y="388" width="256" height="444"/>
+  <object id="121" name="ground" x="16260" y="392" width="252" height="192"/>
+  <object id="122" name="ground" type="small" x="17148" y="3388" width="2296" height="64"/>
+  <object id="123" name="ground" type="small" x="16784" y="568" width="224" height="64"/>
+  <object id="124" name="ground" type="small" x="19380" y="-4" width="64" height="3384"/>
+  <object id="125" name="ground" type="small" x="17080" y="0" width="2296" height="64"/>
+  <object id="126" name="ground" type="small" x="17224" y="448" width="224" height="64"/>
+  <object id="127" name="ground" type="small" x="17720" y="388" width="124" height="64"/>
+  <object id="128" name="ground" type="small" x="18172" y="576" width="1024" height="64"/>
+  <object id="129" name="ground" type="small" x="17152" y="1666" width="64" height="1716"/>
+  <object id="130" name="ground" type="small" x="17156" y="1592" width="2040" height="64"/>
+  <object id="131" name="ground" type="small" x="19132" y="642" width="64" height="952"/>
+  <object id="134" name="ground" x="5040" y="4274" width="126" height="74"/>
+  <object id="135" name="ground" x="4780" y="4118" width="130" height="74"/>
+ </objectgroup>
+ <objectgroup name="GamePoint">
+  <object id="132" name="deadpoint" x="2176" y="5376" width="192" height="128"/>
+  <object id="133" name="deadpoint" x="3582" y="5378" width="640" height="126"/>
+  <object id="139" name="deadpoint" x="5760" y="3584" width="192" height="128"/>
+  <object id="140" name="deadpoint" x="7230" y="3584" width="194" height="128"/>
+  <object id="141" name="deadpoint" x="8324" y="3584" width="194" height="128"/>
+  <object id="142" name="deadpoint" x="9278" y="3582" width="194" height="132"/>
+  <object id="143" name="deadpoint" x="9732" y="3586" width="192" height="130"/>
+  <object id="144" name="deadpoint" x="9982" y="5374" width="256" height="124"/>
+  <object id="145" name="deadpoint" x="12030" y="5376" width="640" height="126"/>
+  <object id="146" name="deadpoint" x="16638" y="852" width="2492" height="46"/>
+ </objectgroup>
+ <objectgroup name="Player">
+  <object id="147" x="224" y="4556" width="64" height="128"/>
+ </objectgroup>
+ <objectgroup name="Ladder">
+  <object id="148" x="1984" y="5120" width="64" height="128"/>
+  <object id="150" x="5184" y="4480" width="64" height="512"/>
+  <object id="151" x="4610" y="3586" width="64" height="512"/>
+  <object id="152" x="4800" y="3264" width="64" height="162"/>
+  <object id="153" x="10246" y="3968" width="64" height="390"/>
+  <object id="154" x="13118" y="4744" width="64" height="160"/>
+  <object id="155" x="13876" y="4292" width="64" height="256"/>
+  <object id="156" x="13068" y="3584" width="64" height="384"/>
+  <object id="157" x="13880" y="3082" width="64" height="310"/>
+  <object id="158" x="13062" y="2050" width="64" height="826"/>
+  <object id="159" x="13504" y="1854" width="64" height="196"/>
+  <object id="160" x="14592" y="1462" width="64" height="260"/>
+  <object id="161" x="14398" y="1092" width="64" height="146"/>
+  <object id="162" x="14464" y="836" width="64" height="124"/>
+  <object id="163" x="14654" y="318" width="64" height="158"/>
+ </objectgroup>
+</map>
