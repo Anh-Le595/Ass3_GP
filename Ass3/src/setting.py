@@ -33,7 +33,7 @@ GRAVITY = 50
 
 # player setting
 PLAYER_SPEED = 8
-JUMP_HEIGHT = 64
+JUMP_HEIGHT = TILE_SIZE
 PLAYER_IMAGE = "images/MarioStanding.png"
 PLAYER_UP_IMAGE = "images/SuperMarioStanding.png"
 RUN = "img/Run (1).png"
@@ -64,6 +64,7 @@ INSTRUCTION_SCREEN = "images/Instruction.png"
 # Sprite run
 list_run_frame_r = []
 list_run_frame_l = []
+list_run_frame_down = []
 list_run_frame_up = []
 list_run_frame_idle = []
 list_run_frame_dead = []
@@ -78,11 +79,17 @@ for i in range(8):
     images = transform.flip(images, True, False)
     images = transform.scale(images,BLOCK_SIZE)
     list_run_frame_l.append(images)
+
 # jump
-for i in range(7,10):
+for i in range(6):
     images = image.load(path.join(game_path,"img/Jump (" + str(i+1)+").png"))
     images = transform.scale(images,BLOCK_SIZE)
     list_run_frame_up.append(images)
+# fall
+for i in range(6,10):
+    images = image.load(path.join(game_path,"img/Jump (" + str(i+1)+").png"))
+    images = transform.scale(images,BLOCK_SIZE)
+    list_run_frame_down.append(images)
 # idle
 for i in range(10):
     images = image.load(path.join(game_path,"img/Idle (" + str(i+1)+").png"))

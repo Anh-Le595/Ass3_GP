@@ -39,39 +39,46 @@ class Player(sprite.Sprite):
         self.on_ground = False
         self.on_ladder = False
         self.check_first_loop = False
+        self.fall = True
+        self.up = False
 
         self.check_up = False
         self.check_down = False
 
         self.time = 10
-
+        self.s = 0
+        self.coord = 0
         self.count = 0
 
     def checkdirection(self):
         if self.runright:
-            print "1"
             pos = self.rect.x + 32
             frame = (pos // 30) % len(list_run_frame_r)
-            # print "frame" + str(frame) + "len" + str(len(list_run_frame_r))
             self.image = list_run_frame_r[frame]
         elif self.runleft:
-            print "2"
+            # print "2"
             pos = self.rect.x
             frame = (pos // 30) % len(list_run_frame_l)
-            # print "frame" + str(frame) + "len" + str(len(list_run_frame_l))
             self.image = list_run_frame_l[frame]
-        # elif (self.jump == True and self.runright) or (self.jump == True and self.runleft == True):
-        elif not self.on_ground:
-            print "3"
+        elif self.fall:
+            # print "3"
+            if self.count < len(list_run_frame_down):
+                self.image = list_run_frame_down[self.count]
+                # print (i,self.count)
+                self.count += 1
+            else:
+                self.count = 0
+        elif self.up:
+            # print "4"
             if self.count < len(list_run_frame_up):
                 self.image = list_run_frame_up[self.count]
-                # print (i,self.count)
+                print (i,self.count)
                 self.count += 1
             else:
                 self.count = 0
         # elif self.stand == True:
         elif self.on_ground:
-            print "4"
+            # print "5"
             if self.count < len(list_run_frame_idle):
                 self.image = list_run_frame_idle[self.count]
                 self.count += 1
@@ -90,9 +97,18 @@ class Player(sprite.Sprite):
             self.velx = -PLAYER_SPEED
         if self.runright:
             self.velx = PLAYER_SPEED
-        if self.jump:
-            if self.on_ground:
-                self.vely = -JUMP_HEIGHT
+        if self.up:
+            
+            # print self.vely,self.rect.top
+            if self.coord > self.s:
+                self.coord -= JUMP_HEIGHT/len(list_run_frame_up)
+                # print self.coord,self
+                self.rect.top = self.coord
+                self.up = True
+            elif self.rect.top == self.s:
+                self.fall = True
+                self.up = False
+        
         if self.climb:
             if self.on_ground:
                 self.rect.y -= 5
@@ -102,6 +118,16 @@ class Player(sprite.Sprite):
                 self.vely = 3
         if not (self.runleft or self.runright):
             self.velx = 0
+        if self.jump:
+            if self.on_ground:
+                # self.vely = -JUMP_HEIGHT
+                self.s = self.rect.top - JUMP_HEIGHT
+                self.coord = self.rect.top
+            self.up = True
+        # if self.vely == -JUMP_HEIGHT:
+        #     self.fall = True
+            
+        # print (self.rect.top,self.vely)
 
         self.time -= 1
         if self.time == 0:
@@ -112,6 +138,7 @@ class Player(sprite.Sprite):
         self.rect.left += self.velx
         self.collide_with_ground(self.velx, 0)
         self.rect.bottom += self.vely
+
         self.on_ground = False
         self.collide_with_ground(0, self.vely)
         
@@ -134,8 +161,10 @@ class Player(sprite.Sprite):
                     self.rect.bottom = p.rect.top
                     self.on_ground = True
                     self.vely = 0
+                    self.fall = False
                 if vy < 0:
                     self.rect.top = p.rect.bottom
+
         # self.on_ground = True
 
     def collide_with_ladder(self):

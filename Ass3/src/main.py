@@ -92,7 +92,6 @@ class Game:
                     self.player.jump = False
                 if e.key == K_UP:
                     self.player.climb = False
-                    
     def show_start_screen(self):
         pass
 

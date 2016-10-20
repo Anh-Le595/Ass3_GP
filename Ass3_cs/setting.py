@@ -17,7 +17,7 @@ GREY = (40, 40, 40)
 # game setting
 
 TILE_SIZE = 128
-BLOCK_SIZE = (TILE_SIZE, TILE_SIZE)
+BLOCK_SIZE = (64, 64)
 
 
 FPS = 60
@@ -27,13 +27,13 @@ CAPTION = "Mario Azawa"
 GRID_WIDTH = WIDTH / TILE_SIZE
 GRID_HEIGHT = HEIGHT / TILE_SIZE
 
-GRAVITY = 3
+GRAVITY = 30
 
 
 
 # player setting
-PLAYER_SPEED = 3
-JUMP_HEIGHT = 20
+PLAYER_SPEED = 8
+JUMP_HEIGHT = 64
 PLAYER_IMAGE = "images/MarioStanding.png"
 PLAYER_UP_IMAGE = "images/SuperMarioStanding.png"
 RUN = "img/Run (1).png"
@@ -94,14 +94,13 @@ for i in range(10):
     images = transform.scale(images,BLOCK_SIZE)
     list_run_frame_dead.append(images)
 
-
-START_BUTTON = "img/start.png"
-INSTRUCT_BUTTON = "img/instruct.png"
-BACK_BUTTON = "img/back.png"
-QUIT_BUTTON = "img/quit.png"
-PAGAIN_BUTTON = "img/playagain.png"
-MMENU_BUTTON = "img/mainmenu.png"
-KHUNG_PATH = "img/khung.png"
-TITLE_SCREEN = 'img/TitleScreen.png'
-GO_SCREEN = "img/GOScreen.png"
-INSTRUCTION_SCREEN = "img/Instruction.png"
+START_BUTTON = "images/start.png"
+INSTRUCT_BUTTON = "images/instruct.png"
+BACK_BUTTON = "images/back.png"
+QUIT_BUTTON = "images/quit.png"
+PAGAIN_BUTTON = "images/playagain.png"
+MMENU_BUTTON = "images/mainmenu.png"
+KHUNG_PATH = "images/khung.png"
+TITLE_SCREEN = 'images/TitleScreen.png'
+GO_SCREEN = "images/GOScreen.png"
+INSTRUCTION_SCREEN = "images/Instruction.png"
