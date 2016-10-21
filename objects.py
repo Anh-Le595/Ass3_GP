@@ -93,16 +93,12 @@ class Player(sprite.Sprite):
             # print "5"
             if self.count < len(list_run_frame_idle):
                 self.image = list_run_frame_idle[self.count]
+                
                 self.count += 1
             else:
                 self.count = 0
-        # elif self.dead == True:
-        #     if self.count < len(list_run_frame_dead):
-        #         self.image = list_run_frame_dead[self.count]
-        #         self.count += 1
-        #     else:
-        #         self.count = 0
-
+        if self.bullet_direct==-1:
+            self.image = transform.flip(self.image, True, False)
 
 
     def collide_with_coin(self):
@@ -113,16 +109,15 @@ class Player(sprite.Sprite):
                 self.game.total_score = self.game.font_score.render("Score : %d"%self.score, True, (255,0,0))
                 p.kill()
     def update(self):
+        # if self.bullet_direct==-1:
+            # self.image = transform.flip(self.image, True, False)
         if self.runleft:
             self.velx = -PLAYER_SPEED
         if self.runright:
             self.velx = PLAYER_SPEED
         if self.up:
-            
-            # print self.vely,self.rect.top
             if self.coord > self.s:
                 self.coord -= JUMP_HEIGHT/len(list_run_frame_up)
-                # print self.coord,self
                 self.rect.top = self.coord
                 self.up = True
             elif self.rect.top == self.s:
@@ -131,29 +126,23 @@ class Player(sprite.Sprite):
         if self.shoot:
             self.shoot_something()
             self.shoot = False
-        # if self.rect.left<=self.x-self.margin:
-        #     self.runright= True
-        #     self.runleft=False
-        #     self.shoot_something()
-        # if self.rect.left>=self.x+self.margin:
-        #     self.runleft= True
-        #     self.runright=False
-        #     self.shoot_something()
 
         if self.climb:
             if self.on_ground:
                 self.rect.y -= 5
         if not self.on_ground:
             self.vely += GRAVITY
-            if self.vely > 3:
-                self.vely = 3
+            if self.vely > 10:
+                self.vely = 6
         if not (self.runleft or self.runright):
             self.velx = 0
         if self.jump:
             if self.on_ground:
-                # self.vely = -JUMP_HEIGHT
                 self.s = self.rect.top - JUMP_HEIGHT
                 self.coord = self.rect.top
+                
+
+
             self.up = True
         if self.vely == -JUMP_HEIGHT:
             self.fall = True
@@ -175,10 +164,9 @@ class Player(sprite.Sprite):
         self.on_ground = False
         self.collide_with_ground(0, self.vely)
         self.collide_with_boss()
-        # print self.time
-        # self.checkdirection()
-        # self.count += 1
-        # print self.count
+        self.collide_with_enemy()
+        self.collide_with_deadpoint()
+        self.collide_with_bulletboss()
 
     def collide_with_ground(self, vx, vy):
         for p in self.game.ground:
@@ -189,13 +177,13 @@ class Player(sprite.Sprite):
                 if vx < 0:
                     self.rect.left = p.rect.right
                 if vy > 0:
-                    # print(self.on_ground)
                     self.rect.bottom = p.rect.top
                     self.on_ground = True
                     self.vely = 0
                     self.fall = False
                 if vy < 0:
                     self.rect.top = p.rect.bottom
+                    self.vely=0
 
     def collide_with_question(self, vx, vy):
         for p in self.game.life:
@@ -217,7 +205,7 @@ class Player(sprite.Sprite):
                 else:
                     self.score_life += 1
                     self.game.score_life = pygame.font.SysFont('ActionIsShaded', 50)
-                    self.game.total_life = self.game.score_life.render("Score : %d"%self.score_life, True, (255,0,0))
+                    self.game.total_life = self.game.score_life.render("Life : %d"%self.score_life, True, (255,0,0))
                     # p.kill()
                     p.kill()
     def collide_with_ladder(self):
@@ -225,67 +213,52 @@ class Player(sprite.Sprite):
             if sprite.collide_rect(self, p):
                 if self.check_up == False:
                     self.rect.top = (p.rect.top + p.rect.bottom)/2 + 32
-                # self.rect.top = (p.rect.top + p.rect.bottom)/2 + 32   
-                # if self.rect.top == (p.rect.top + p.rect.bottom)/2 + 32:
                 if key.get_pressed()[K_UP]:
-                    # self.rect.left = p.rect.left
-                    # self.vely = 0
-                    # self.on_ground = True
-                    # self.rect.bottom =  p.rect.top
                     self.check_up = True
                 if self.check_up ==  True:
                     self.rect.bottom =  p.rect.top
 
                     if key.get_pressed()[K_DOWN]:
-                #     # self.rect.left = p.rect.left
-                #     # self.vely = 0
-                #     # self.on_ground = True
-                #     # self.rect.bottom =  p.rect.top
+
                         self.check_first_loop = False
                         self.check_down = True
-                    if self.check_down ==  True and self.check_first_loop == False:
-                        self.rect.top =  p.rect.bottom  
+                    if self.check_down and not self.check_first_loop:
+                        self.rect.top = p.rect.bottom
                         self.check_up = False
                         self.check_first_loop = True  
                 self.on_ground = True
-                    # if self.rect.bottom == p.rect.top:
-                        # print "a"
-                        # if key.get_pressed()[K_DOWN]:
-                            # print "b"
-                            # self.rect.x -= 10
-                # if self.rect.bottom == p.rect.top:
-                #     # self.rect.bottom = p.rect.top
-                # # if self.check
-                #     if key.get_pressed()[K_DOWN]:
-                #         self.rect.top = p.rect.bottom  
-                # if key.get_pressed()[K_DOWN]:
-                # #     # self.rect.left = p.rect.left
-                # #     # self.vely = 0
-                # #     # self.on_ground = True
-                # #     # self.rect.bottom =  p.rect.top
-                #     self.check_down = True
-                # if self.check_down ==  True:
-                #     self.rect.top =  p.rect.bottom
-
-                # self.check_up = False
-
+    def collide_with_enemy(self):
+        for p in self.game.enemy:
+            if sprite.collide_mask(self, p):
+                self.score_life -= 1
+                self.game.total_life = self.game.score_life.render("Score : %d" % self.score_life, True, (255, 0, 0))
+                p.kill()
+                if self.score_life == 0:
+                    self.game.playing = False
+                    self.dead = True
+    def collide_with_deadpoint(self):
+        for p in self.game.deadpoint:
+            if sprite.collide_rect(self, p):
+                self.game.playing = False
+                self.dead = True
     def shoot_something(self):
-        BulletPlayer(self.game,self.bullet_direct*BULLET_SPEED,0,self)
-# class Bullet(sprite.Sprite):
-#     def __init__(self, game, bullet):
-#         self.groups = game.all_sprites, game.bullet
-#         sprite.Sprite.__init__(self, self.groups)
-
-#         self.game = game
-#         # not have image
-#         # self.image = image.load(path.join(game_path,))
+        BulletPlayer(self.game, self.bullet_direct * BULLET_SPEED, 0, self)
+        pygame.mixer.Sound.play(self.game.fire)
     def collide_with_boss(self):
-        for p in self.game.boss :
+        for p in self.game.boss:
             if sprite.collide_rect(self,p):
                 self.game.playing=False
                 self.dead=True
                 self.rect.right=p.rect.left
-
+    def collide_with_bulletboss(self):
+        for p in self.game.bulletboss:
+            if sprite.collide_mask(self, p):
+                self.score_life -= 1
+                self.game.total_life = self.game.score_life.render("Score : %d" % self.score_life, True, (255, 0, 0))
+                p.kill()
+                if self.score_life == 0:
+                    self.game.playing = False
+                    self.dead = True
 class Coin(sprite.Sprite):
     def __init__(self, game, coin):
         self.groups = game.all_sprites, game.coin
@@ -336,7 +309,23 @@ class Ground(sprite.Sprite):
         self.rect.top = self.y
     def load_img(self):
         pass
+class DeadPoint(sprite.Sprite):
+    def __init__(self, game, block):
+        self.groups = game.all_sprites, game.deadpoint
+        sprite.Sprite.__init__(self, self.groups)
 
+        self.game = game
+        self.kind = block["type"]
+        self.image = Surface((block["width"], block["height"]))
+        # self.image= image.load(path.join(game_path,"img/BrickBlockCastle.png"))
+        # self.image= transform.scale(self.image,(int(block["width"]),int(block["height"])))
+        self.image.set_alpha(0)
+
+        self.rect = self.image.get_rect()
+        self.x = block["x"]
+        self.y = block["y"]
+        self.rect.left = self.x
+        self.rect.top = self.y
 class BulletBoss(sprite.Sprite):
     def __init__(self, game,vx,vy,boss):
         self.groups = game.all_sprites, game.bulletboss
@@ -366,13 +355,20 @@ class BulletBoss(sprite.Sprite):
         if self.count < len(bullet_run_frame):
             self.image = bullet_run_frame[self.count]
             if self.vx<0:
-                self.image = transform.flip(self.image, True,False)
+                self.image = transform.flip(self.image, True, False)
             self.count += 1
         else:
             self.count = 0
         if (((self.rect.centerx-self.boss.rect.centerx)**2+(self.rect.centery-self.boss.rect.centery)**2)**0.5)>500:
             self.kill()
-
+    def collide_with_player(self):
+        
+        if sprite.collide_mask(self, p):
+            p.life-=1;
+            self.kill()
+        if self.game.player.life<=0:
+                
+                p.kill()
 class BulletPlayer(sprite.Sprite):
     def __init__(self, game,vx,vy,boss):
         self.groups = game.all_sprites, game.bulletplayer
@@ -409,14 +405,27 @@ class BulletPlayer(sprite.Sprite):
         if (((self.rect.centerx-self.boss.rect.centerx)**2+(self.rect.centery-self.boss.rect.centery)**2)**0.5)>500:
             self.kill()
         self.collide_with_questionblock()
-        
+        self.collide_with_enemy()
+        self.collide_with_boss()
     def collide_with_questionblock(self):
         for p in self.game.life:
             if sprite.collide_rect(self, p):
                 self.kill()
                 p.image = image.load(LIFE_IMG)
                 p.destroy = True
-
+    def collide_with_enemy(self):
+        for p in self.game.enemy:
+            if sprite.collide_mask(self, p):
+                self.kill()
+                p.kill()
+    def collide_with_boss(self):
+        for p in self.game.boss:
+            if sprite.collide_mask(self, p):
+                p.life-=1;
+                self.kill()
+            if p.life<=0:
+                
+                p.kill()
 class Ladder(sprite.Sprite):
     def __init__(self, game, ladder):
         self.groups = game.all_sprites, game.ladder
@@ -600,7 +609,7 @@ class Button:
 
 
     def draw(self, screen, mouse, rectcoord, size):
-        '''create rect obj, draw, and change color based on input'''
+
         self.button_load()
         self.image = pygame.transform.scale(self.image,size)
         self.obj = screen.blit(self.image, rectcoord)
@@ -609,7 +618,7 @@ class Button:
         self.check_hover(mouse)
 
     def check_hover(self, mouse):
-        '''adjust is_hover value based on mouse over button - to change hover color'''
+
         if self.obj.collidepoint(mouse):
             self.is_hover = True
         else:
@@ -623,6 +632,7 @@ class Enemy(sprite.Sprite):
         self.visible = block["visible"]
         self.alive= block["visible"]
         self.image = image.load(path.join(game_path,ENEMY_IMAGE))
+        self.image = transform.scale(self.image, (64, 64))
         self.rect = self.image.get_rect()
         self.x = block["x"]
         self.y = block["y"]
@@ -637,7 +647,7 @@ class Enemy(sprite.Sprite):
         if self.runright:
             self.velx = ENEMY_SPEED
         self.rect.left+=self.velx;
-        if self.rect.left<=self.x-MARGIN_ENEMY:
+        if self.rect.left<=self.x - MARGIN_ENEMY:
             self.runright= True
             self.runleft=False
         if self.rect.left>=self.x+MARGIN_ENEMY:
@@ -663,8 +673,9 @@ class Boss(sprite.Sprite):
         # position of player
         self.rect.bottomleft = (self.x, self.y)
         self.battu = 0
-        self.speed =4
+        self.speed = 4
         self.margin=50
+        self.life =5
         # score
         self.score = 0
         self.game.font_score = pygame.font.SysFont('ActionIsShaded', 50)
@@ -736,6 +747,8 @@ class Boss(sprite.Sprite):
         BulletBoss(self.game,BULLET_SPEED*-0.707,-BULLET_SPEED*0.707,self)
         BulletBoss(self.game,BULLET_SPEED*-0.5,-BULLET_SPEED*0.866,self)
         self.speed+=0.01
+        if self.speed >=40:
+            self.speed=40
         self.margin+=5
         if self.margin >=200:
             self.margin=200

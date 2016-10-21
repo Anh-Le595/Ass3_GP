@@ -29,11 +29,12 @@ GRID_HEIGHT = HEIGHT / TILE_SIZE
 
 GRAVITY = 30
 
-
+Checkpoint1 = (8024, 3402)
+Checkpoint2 = (14502, 2100)
 
 # player setting
-PLAYER_SPEED = 8
-JUMP_HEIGHT = 64
+PLAYER_SPEED = 16
+JUMP_HEIGHT = 192
 PLAYER_IMAGE = "images/MarioStanding.png"
 PLAYER_UP_IMAGE = "images/SuperMarioStanding.png"
 RUN = "img/Run (1).png"
@@ -173,3 +174,9 @@ for i in range(10):
     images = image.load(path.join(game_path,"img/png/Dead (" + str(i+1)+").png"))
     images = transform.scale(images,BOSS_SIZE)
     boss_run_frame_dead.append(images)
+#sound path
+SOUND_BACKGROUND = "sound/Background.mp3"
+SOUND_MENU = "sound/Menu.mp3"
+SOUND_FIRE = "sound/Fire.wav"
+SOUND_HIT = "sound/Hit.wav"
+SOUND_ITEM = "sound/Item.wav"

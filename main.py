@@ -15,7 +15,8 @@ class Game:
         self.player_image = transform.scale(self.player_image, BLOCK_SIZE)
         self.map = Map(path.join(game_path, MAP_PATH))
         self.running = True
-
+        self.menu_running = True
+        self.fire = pygame.mixer.Sound(path.join(game_path,SOUND_FIRE))
     def new(self):
         self.all_sprites = sprite.Group()
         self.ground = sprite.Group()
@@ -27,6 +28,7 @@ class Game:
         self.enemy = sprite.Group()
         self.boss = sprite.Group()
         self.bulletboss = sprite.Group()
+        self.deadpoint = sprite.Group()
         # read map data
         for layer in self.map.data["layers"]:
 
@@ -51,6 +53,10 @@ class Game:
             if layer["name"] == "Boss":
                 for boss in  layer["objects"]:
                     Boss(self, boss)
+            if layer["name"] == "GamePoint":
+                for gamepoint in layer["objects"]:
+                    DeadPoint(self, gamepoint)
+
 
     def run(self):
         # game loop - set self.playing = False to end the game
@@ -92,8 +98,10 @@ class Game:
             if e.type == KEYDOWN:
                 if e.key == K_LEFT:
                     self.player.runleft = True
+                    self.player.bullet_direct = -1
                 elif e.key == K_RIGHT:
                     self.player.runright = True
+                    self.player.bullet_direct = 1
                 elif e.key == K_a:
                     self.player.jump = True
                 elif e.key == K_DOWN:
