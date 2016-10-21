@@ -61,7 +61,7 @@ class Player(sprite.Sprite):
         self.s = 0
         self.coord = 0
         self.count = 0
-
+        self.bullet_direct=1
     def checkdirection(self):
         if self.runright:
             pos = self.rect.x + 32
@@ -174,25 +174,11 @@ class Player(sprite.Sprite):
         self.collide_with_coin()
         self.on_ground = False
         self.collide_with_ground(0, self.vely)
-        
+        self.collide_with_boss()
         # print self.time
         # self.checkdirection()
         # self.count += 1
         # print self.count
-
-    def shoot_something(self):
-        vx=self.game.player.rect.centerx-self.rect.centerx
-        disx = (self.game.player.rect.centerx-self.rect.centerx)
-        disy = (self.game.player.rect.centery-self.rect.centery)
-        self.energy+=1
-        vx=BULLET_SPEED*disx/((disx*disx+disy*disy)**0.5)
-        vy=BULLET_SPEED*disy/((disx*disx+disy*disy)**0.5)
-        # if vx<0: 
-            # vx=-BULLET_SPEED
-        # else:
-            # vx=BULLET_SPEED
-        # vy = 0
-        BulletPlayer(self.game,vx,vy,self)
 
     def collide_with_ground(self, vx, vy):
         for p in self.game.ground:
@@ -284,7 +270,7 @@ class Player(sprite.Sprite):
                 # self.check_up = False
 
     def shoot_something(self):
-        BulletPlayer(self.game,BULLET_SPEED,0,self)
+        BulletPlayer(self.game,self.bullet_direct*BULLET_SPEED,0,self)
 # class Bullet(sprite.Sprite):
 #     def __init__(self, game, bullet):
 #         self.groups = game.all_sprites, game.bullet
@@ -293,7 +279,12 @@ class Player(sprite.Sprite):
 #         self.game = game
 #         # not have image
 #         # self.image = image.load(path.join(game_path,))
-
+    def collide_with_boss(self):
+        for p in self.game.boss :
+            if sprite.collide_rect(self,p):
+                self.game.playing=False
+                self.dead=True
+                self.rect.right=p.rect.left
 
 class Coin(sprite.Sprite):
     def __init__(self, game, coin):
@@ -418,7 +409,7 @@ class BulletPlayer(sprite.Sprite):
         if (((self.rect.centerx-self.boss.rect.centerx)**2+(self.rect.centery-self.boss.rect.centery)**2)**0.5)>500:
             self.kill()
         self.collide_with_questionblock()
-
+        
     def collide_with_questionblock(self):
         for p in self.game.life:
             if sprite.collide_rect(self, p):
@@ -486,11 +477,11 @@ class GameMenu:
     def __init__(self, screen):
         self.screen = screen
         self.clock = pygame.time.Clock()
-        self.image = pygame.image.load(TITLE_SCREEN)
+        self.image = image.load(path.join(game_path,TITLE_SCREEN))
         self.image = pygame.transform.scale(self.image, (WIDTH, HEIGHT))
-        self.instruction_image = pygame.image.load(INSTRUCTION_SCREEN)
+        self.instruction_image = image.load(path.join(game_path,INSTRUCTION_SCREEN))
         self.instruction_image = pygame.transform.scale(self.instruction_image, (WIDTH, HEIGHT))
-        self.instruct_image = pygame.image.load(KHUNG_PATH)
+        self.instruct_image = image.load(path.join(game_path,KHUNG_PATH))
         self.btnStart = Button(0)
         self.btnInstruct = Button(1)
         self.btnQuit = Button(3)
@@ -550,7 +541,7 @@ class GameGO:
     def __init__(self, screen):
         self.screen = screen
         self.clock = pygame.time.Clock()
-        self.image = pygame.image.load(GO_SCREEN)
+        self.image = image.load(path.join(game_path,GO_SCREEN))
         self.image = pygame.transform.scale(self.image, (WIDTH, HEIGHT))
         self.mainLoop = True
         self.btnAgain = Button(5)
@@ -595,17 +586,17 @@ class Button:
 
     def button_load(self):
         if self.indexbutton == 0:
-            self.image = pygame.image.load(START_BUTTON)
+            self.image = image.load(path.join(game_path,START_BUTTON))
         elif self.indexbutton == 1:
-            self.image = pygame.image.load(INSTRUCT_BUTTON)
+            self.image = image.load(path.join(game_path,INSTRUCT_BUTTON))
         elif self.indexbutton == 2:
-            self.image = pygame.image.load(BACK_BUTTON)
+            self.image = image.load(path.join(game_path,BACK_BUTTON))
         elif self.indexbutton == 3:
-            self.image = pygame.image.load(QUIT_BUTTON)
+            self.image = image.load(path.join(game_path,QUIT_BUTTON))
         elif self.indexbutton == 4:
-            self.image = pygame.image.load(MMENU_BUTTON)
+            self.image = image.load(path.join(game_path,MMENU_BUTTON))
         elif self.indexbutton == 5:
-            self.image = pygame.image.load(PAGAIN_BUTTON)
+            self.image = image.load(path.join(game_path,PAGAIN_BUTTON))
 
 
     def draw(self, screen, mouse, rectcoord, size):
@@ -623,3 +614,192 @@ class Button:
             self.is_hover = True
         else:
             self.is_hover = False
+class Enemy(sprite.Sprite):
+    def __init__(self, game, block):
+        self.groups = game.all_sprites, game.enemy
+        sprite.Sprite.__init__(self, self.groups)
+
+        self.game = game
+        self.visible = block["visible"]
+        self.alive= block["visible"]
+        self.image = image.load(path.join(game_path,ENEMY_IMAGE))
+        self.rect = self.image.get_rect()
+        self.x = block["x"]
+        self.y = block["y"]
+        self.rect.left = self.x
+        self.rect.top = self.y
+        self.runleft = True
+        self.runright = False
+
+    def update(self):
+        if self.runleft:
+            self.velx = -ENEMY_SPEED
+        if self.runright:
+            self.velx = ENEMY_SPEED
+        self.rect.left+=self.velx;
+        if self.rect.left<=self.x-MARGIN_ENEMY:
+            self.runright= True
+            self.runleft=False
+        if self.rect.left>=self.x+MARGIN_ENEMY:
+            self.runleft= True
+            self.runright=False
+class Boss(sprite.Sprite):
+    def __init__(self, game, block):
+
+        self.groups = game.all_sprites, game.boss
+        sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+
+        self.image = image.load(path.join(game_path, "img/Idle (1).png"))
+        self.image = transform.scale(self.image, BOSS_SIZE)
+        self.rect = self.image.get_rect()
+        self.velx = 0
+        self.vely = 0
+        self.width = self.rect.width
+        self.height = self.rect.height
+        self.x=block["x"]
+        self.y=block["y"]+block["height"]
+        self.energy=0
+        # position of player
+        self.rect.bottomleft = (self.x, self.y)
+        self.battu = 0
+        self.speed =4
+        self.margin=50
+        # score
+        self.score = 0
+        self.game.font_score = pygame.font.SysFont('ActionIsShaded', 50)
+        self.game.total_score = self.game.font_score.render("Score : %d" % self.score, True, (255, 0, 0))
+
+        # state of player
+        self.stand = False
+        self.runleft = False
+        self.runright = True
+        self.jump = False
+        self.dead = False
+        self.on_ground = False
+
+        self.count = 0
+
+    def checkdirection(self):
+        if self.runright == True:
+            pos = self.rect.x + 32
+            frame = (pos // 30) % len(boss_run_frame_r)
+            # print "frame" + str(frame) + "len" + str(len(list_run_frame_r))
+            self.image = boss_run_frame_r[frame]
+        elif self.runleft == True:
+            pos = self.rect.x
+            frame = (pos // 30) % len(boss_run_frame_l)
+            # print "frame" + str(frame) + "len" + str(len(list_run_frame_l))
+            self.image = boss_run_frame_l[frame]
+        elif (not self.on_ground):
+            pos = self.rect.y
+            frame = (pos // 30) % len(boss_run_frame_up)
+            self.image = boss_run_frame_up[frame]
+        elif self.stand == True:
+            if self.count < len(boss_run_frame_idle):
+                self.image = boss_run_frame_idle[self.count]
+                self.count += 1
+            else:
+                self.count = 0
+        elif self.dead == True:
+            if self.count < len(boss_run_frame_dead):
+                self.image = list_run_frame_idle[self.count]
+                self.count += 1
+            else:
+                self.count = 0
+    def shoot_something(self):
+        vx=self.game.player.rect.centerx-self.rect.centerx
+        disx = (self.game.player.rect.centerx-self.rect.centerx)
+        disy = (self.game.player.rect.centery-self.rect.centery)
+        self.energy+=1
+        vx=BULLET_SPEED*disx/((disx*disx+disy*disy)**0.5)
+        vy=BULLET_SPEED*disy/((disx*disx+disy*disy)**0.5)
+        # if vx<0: 
+            # vx=-BULLET_SPEED
+        # else:
+            # vx=BULLET_SPEED
+        # vy = 0
+        BulletBoss(self.game,vx,vy,self)
+    def ultimate(self):
+        
+        self.stand=True
+        self.runleft=False
+        self.runlight=False
+        
+        BulletBoss(self.game,BULLET_SPEED*1,-BULLET_SPEED*0,self)
+        BulletBoss(self.game,BULLET_SPEED*0.866,-BULLET_SPEED*0.5,self)
+        BulletBoss(self.game,BULLET_SPEED*0.707,-BULLET_SPEED*0.707,self)
+        BulletBoss(self.game,BULLET_SPEED*0.5,-BULLET_SPEED*0.866,self)
+        BulletBoss(self.game,BULLET_SPEED*0,-BULLET_SPEED*1,self)
+        BulletBoss(self.game,BULLET_SPEED*-1,-BULLET_SPEED*0,self)
+        BulletBoss(self.game,BULLET_SPEED*-0.866,-BULLET_SPEED*0.5,self)
+        BulletBoss(self.game,BULLET_SPEED*-0.707,-BULLET_SPEED*0.707,self)
+        BulletBoss(self.game,BULLET_SPEED*-0.5,-BULLET_SPEED*0.866,self)
+        self.speed+=0.01
+        self.margin+=5
+        if self.margin >=200:
+            self.margin=200
+    def update(self):
+        
+        if self.runleft:
+            self.velx = -self.speed
+        if self.runright:
+            self.velx = self.speed
+        self.rect.left+=self.velx;
+        if self.rect.left<=self.x-self.margin:
+            self.runright= True
+            self.runleft=False
+            self.shoot_something()
+        if self.rect.left>=self.x+self.margin:
+            self.runleft= True
+            self.runright=False
+            self.shoot_something()
+        if self.jump:
+            if self.on_ground:
+                self.vely = -BOSS_JUMP_HEIGHT
+        if not self.on_ground:
+            self.vely += GRAVITY
+            if self.vely > 5:
+                self.vely = 5
+        if self.energy==3:
+            self.ultimate()
+            self.energy=0
+        self.collide_with_ground(self.velx, 0)
+        self.rect.bottom += self.vely
+        self.on_ground = False
+        
+        self.collide_with_ground(0, self.vely)
+        self.checkdirection()
+
+    def collide_with_ground(self, vx, vy):
+        for p in self.game.ground:
+            if sprite.collide_rect(self, p):
+                if vx > 0:
+
+                    if p.kind == "out":
+                        if key.get_pressed()[K_RIGHT]:
+                            self.rect.x = out_x
+                            self.rect.y = out_y
+                        else:
+                            self.rect.right = p.rect.left
+                    else:
+                        self.rect.right = p.rect.left
+
+                if vx < 0:
+                    self.rect.left = p.rect.right
+                if vy > 0:
+                    # print(self.on_ground)
+                    if p.kind == "in":
+                        if key.get_pressed()[K_DOWN]:
+                            self.rect.x = in_x
+                            self.rect.y = in_y
+                        else:
+                            self.rect.bottom = p.rect.top
+                            self.on_ground = True
+                            self.vely = 0
+                    else:
+                        self.rect.bottom = p.rect.top
+                        self.on_ground = True
+                        self.vely = 0
+                if vy < 0:
+                    self.rect.top = p.rect.bottom

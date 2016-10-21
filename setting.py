@@ -135,3 +135,41 @@ KHUNG_PATH = "images/khung.png"
 TITLE_SCREEN = 'images/TitleScreen.png'
 GO_SCREEN = "images/GOScreen.png"
 INSTRUCTION_SCREEN = "images/Instruction.png"
+BOSS_SPEED = 4
+BOSS_SIZE =(128,128)
+BULLET_SIZE=(32,32)
+BULLET_SPEED=8
+BOSS_JUMP_HEIGHT = 30
+MARGIN_BOSS = 30
+boss_run_frame_r = []
+boss_run_frame_l = []
+boss_run_frame_up = []
+boss_run_frame_idle = []
+boss_run_frame_dead = []
+bullet_run_frame =[]
+# runleft
+for i in range(8):
+    images = image.load(path.join(game_path,"img/png/Run (" + str(i+1)+").png"))
+    images = transform.scale(images,BOSS_SIZE)
+    boss_run_frame_r.append(images)
+# runright
+for i in range(8):
+    images = image.load(path.join(game_path,"img/png/Run (" + str(i+1)+").png"))
+    images = transform.flip(images, True, False)
+    images = transform.scale(images,BOSS_SIZE)
+    boss_run_frame_l.append(images)
+# jump
+for i in range(8):
+    images = image.load(path.join(game_path,"img/png/JumpAttack (" + str(i+1)+").png"))
+    images = transform.scale(images,BOSS_SIZE)
+    boss_run_frame_up.append(images)
+# idle
+for i in range(10):
+    images = image.load(path.join(game_path,"img/png/Idle (" + str(i+1)+").png"))
+    images = transform.scale(images,BOSS_SIZE)
+    boss_run_frame_idle.append(images)
+# dead
+for i in range(10):
+    images = image.load(path.join(game_path,"img/png/Dead (" + str(i+1)+").png"))
+    images = transform.scale(images,BOSS_SIZE)
+    boss_run_frame_dead.append(images)

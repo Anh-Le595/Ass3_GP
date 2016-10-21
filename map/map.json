@@ -8,7 +8,7 @@
          "name":"Tile Layer 1",
          "opacity":1,
          "type":"tilelayer",
-         "visible":false,
+         "visible":true,
          "width":152,
          "x":0,
          "y":0
@@ -1740,7 +1740,7 @@
                  "y":4929
                 }, 
                 {
-                 "height":128,
+                 "height":136,
                  "id":299,
                  "name":"",
                  "rotation":0,
@@ -1748,7 +1748,7 @@
                  "visible":true,
                  "width":64,
                  "x":1156,
-                 "y":4872
+                 "y":4864
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -3078,8 +3078,31 @@
          "width":0,
          "x":0,
          "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "height":43,
+         "name":"Boss",
+         "objects":[
+                {
+                 "height":80,
+                 "id":304,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":69,
+                 "x":1694,
+                 "y":5037
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "width":152,
+         "x":0,
+         "y":0
         }],
- "nextobjectid":304,
+ "nextobjectid":305,
  "orientation":"orthogonal",
  "renderorder":"left-up",
  "tileheight":128,
@@ -3087,13 +3110,13 @@
         {
          "columns":153,
          "firstgid":1,
-         "image":"C:\/Users\/THC\/Desktop\/map.png",
+         "image":"..\/..\/..\/..\/Users\/THC\/Desktop\/map.png",
          "imageheight":1376,
          "imagewidth":4896,
          "margin":0,
          "name":"map",
          "spacing":0,
-         "tilecount":6579,
+         "tilecount":0,
          "tileheight":32,
          "tilewidth":32
         }],

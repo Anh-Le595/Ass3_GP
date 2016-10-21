@@ -24,6 +24,9 @@ class Game:
         self.coin = sprite.Group()
         self.life = sprite.Group()
         self.bulletplayer = sprite.Group()
+        self.enemy = sprite.Group()
+        self.boss = sprite.Group()
+        self.bulletboss = sprite.Group()
         # read map data
         for layer in self.map.data["layers"]:
 
@@ -36,13 +39,18 @@ class Game:
             if layer["name"] == "Player":
                 player = layer["objects"][0]
                 self.player = Player(self, player["x"], player["y"])
+            if layer["name"] == "Enemy":
+                for enemy in layer["objects"]:
+                    Enemy(self,enemy)
             if layer["name"] == "Item":
                 for item in layer["objects"]:
                     if item["name"] == "coin":
                         Coin(self, item)
                     if item["name"] == "life":
                         Life(self,item)
-
+            if layer["name"] == "Boss":
+                for boss in  layer["objects"]:
+                    Boss(self, boss)
 
     def run(self):
         # game loop - set self.playing = False to end the game
@@ -95,8 +103,10 @@ class Game:
             if e.type == KEYUP:
                 if e.key == K_LEFT:
                     self.player.runleft = False
+                    self.player.bullet_direct = -1
                 if e.key == K_RIGHT:
                     self.player.runright = False
+                    self.player.bullet_direct = 1
                 if e.key == K_a:
                     self.player.jump = False
                 if e.key == K_UP:
